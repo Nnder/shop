@@ -5,12 +5,12 @@ import YandexProvider from 'next-auth/providers/yandex';
 export const authConfig: AuthOptions = {
     providers: [
         GoogleProvider({
-            clientId: '86291010297-h512geljhj89s123llqibpifrhj9qr1i.apps.googleusercontent.com',
-            clientSecret: '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'
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }),
         YandexProvider({
-            clientId: '094e11b436584f438a988fb5d6f19d7c',
-            clientSecret: '900a1ef3eb304d8ab507eb112398a7ef'
+            clientId: process.env.YANDEX_CLIENT_ID as string,
+            clientSecret: process.env.YANDEX_CLIENT_SECRET as string,
         })
 
     ],

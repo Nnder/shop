@@ -1,8 +1,8 @@
-import Navbar from "@/src/3_widget/Navbar/Navbar";
 import { Container, Paper, Typography } from "@mui/material";
-import Image from "next/image";
 
 export default function Home() {
+  console.log(process.env);
+
   return (
    <Container>
     <Paper elevation={16}>
