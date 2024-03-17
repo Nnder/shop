@@ -13,6 +13,9 @@ const theme = createTheme({
       secondary: {
         main: "#FEEFDD",
       },
+      info: {
+        main: "#FF4000"
+      }
     },
   })
 

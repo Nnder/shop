@@ -1,8 +1,6 @@
 import { Container, Paper, Typography } from "@mui/material";
 
-export default function Home() {
-  console.log(process.env);
-
+export default function About() {
   return (
    <Container>
     <Paper elevation={16}>

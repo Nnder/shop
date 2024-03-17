@@ -1,9 +1,11 @@
 "use client"
 import { useTheme } from "@emotion/react";
-import {Typography, Box, Button, AppBar, Toolbar} from "@mui/material";
+import {Box, Button, AppBar, Toolbar} from "@mui/material";
 import {ShoppingBasket, } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import SignButton from "@/src/6_shared/Buttons/Sign/Sign";
+import ButtonLink from "@/src/6_shared/Buttons/Link/ButtonLink";
 
 export default function Navbar() {
 
@@ -28,32 +30,12 @@ export default function Navbar() {
         <Link href={'/'} passHref 
         style={{display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '20px'}}>
             <Image width={60} height={60} src={'/faviconStroke.svg'} alt="Meat"/>
-            {/* <Beef width={35} height={35}/> */}
         </Link>
 
-        <Link href={'/'} passHref>
-            <Button sx={{
-                color: (theme)=>`${theme.palette.secondary.main}`
-            }}>Главная</Button>
-        </Link>
-
-        <Link href={'products'} passHref>
-            <Button sx={{
-                color: (theme)=>`${theme.palette.secondary.main}`
-            }}>Продукция</Button>
-        </Link>
-
-        <Link href={'about'} passHref>
-            <Button sx={{
-                color: (theme)=>`${theme.palette.secondary.main}`
-            }}>О нас</Button>
-        </Link>
-
-        <Link href={'contacts'} passHref>
-            <Button sx={{
-                color: (theme)=>`${theme.palette.secondary.main}`
-            }}>Контакты</Button>
-        </Link>
+        <ButtonLink href={'/'}>Главная</ButtonLink>
+        <ButtonLink href={'/products'}>Продукция</ButtonLink>
+        <ButtonLink href={'/about'}>О нас</ButtonLink>
+        <ButtonLink href={'/contacts'}>Контакты</ButtonLink>
     </Box>
     <Box sx={{
 
@@ -63,18 +45,10 @@ export default function Navbar() {
         }}>
             <ShoppingBasket size={35}/>
         </Button>
-       
-        <Button>
-            <Typography sx={{
-                color: (theme)=>`${theme.palette.secondary.main}`
-            }}>Вход</Typography>
-            
-        </Button>
-        
-    </Box>
 
+        <SignButton/>
+    </Box>
     </Toolbar>
-    
    </AppBar>
   );
 }
