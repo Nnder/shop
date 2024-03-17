@@ -4,7 +4,6 @@ import {Typography, Box, Button, AppBar, Toolbar} from "@mui/material";
 import {ShoppingBasket, } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "@/public/faviconStroke.svg"
 
 export default function Navbar() {
 

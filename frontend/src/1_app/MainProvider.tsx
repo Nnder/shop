@@ -2,6 +2,7 @@
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import { PropsWithChildren } from "react";
+import Session from "./Session";
 
 
 const theme = createTheme({
@@ -17,8 +18,10 @@ const theme = createTheme({
 
 export default function MainProvider({children}: PropsWithChildren) {
   return (
-   <ThemeProvider theme={theme}>
-    {children}
-   </ThemeProvider>
+    <Session>
+      <ThemeProvider theme={theme}>
+        {children}
+      </ThemeProvider>
+   </Session>
   );
 }

@@ -1,13 +1,21 @@
+"use client"
 import { Container, Paper, Typography } from "@mui/material";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+
+  const sessin = useSession()
+  const user = sessin.data?.user;
+
+
   return (
    <Container sx={{
     pt: 8
    }}>
     <Paper elevation={16}>
+    {sessin.status}
       <Typography variant={'h1'}>
-        Hello
+        Hello {user?.email}
       </Typography>
     </Paper>
    </Container>
