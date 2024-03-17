@@ -1,8 +1,10 @@
 "use client"
 import { useTheme } from "@emotion/react";
 import {Typography, Box, Button, AppBar, Toolbar} from "@mui/material";
-import { Beef, LogIn, ShoppingBasket, ShoppingCart, User } from "lucide-react";
+import {ShoppingBasket, } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import Logo from "@/public/faviconStroke.svg"
 
 export default function Navbar() {
 
@@ -20,10 +22,14 @@ export default function Navbar() {
     
 
     <Box sx={{
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
     }}>
-        <Link href={'/'} passHref>
-            <Beef width={35} height={35}/>
+        <Link href={'/'} passHref 
+        style={{display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '20px'}}>
+            <Image width={60} height={60} src={'/faviconStroke.svg'} alt="Meat"/>
+            {/* <Beef width={35} height={35}/> */}
         </Link>
 
         <Link href={'/'} passHref>

@@ -1,10 +1,10 @@
-import Navbar from "@/src/3_widget/Navbar/Navbar";
 import { Container, Paper, Typography } from "@mui/material";
-import Image from "next/image";
 
 export default function Home() {
   return (
-   <Container>
+   <Container sx={{
+    pt: 8
+   }}>
     <Paper elevation={16}>
       <Typography variant={'h1'}>
         Hello
