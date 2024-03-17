@@ -7,7 +7,7 @@ export default function Home() {
    <Container>
     <Paper elevation={16}>
       <Typography variant={'h1'}>
-        Hello
+        About
       </Typography>
     </Paper>
    </Container>

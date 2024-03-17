@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import MainProvider from "@/src/1_app/MainProvider";
+import Navbar from "@/src/3_widget/Navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +18,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.svg" sizes="any" />
+      </head>
       <body className={inter.className}>
-        <MainProvider>{children}</MainProvider>
+        <MainProvider>
+        <Navbar/>
+          {children}
+          </MainProvider>
         </body>
     </html>
   );
