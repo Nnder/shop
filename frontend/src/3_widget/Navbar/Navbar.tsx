@@ -4,8 +4,8 @@ import {Box, Button, AppBar, Toolbar} from "@mui/material";
 import {ShoppingBasket, } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import SignButton from "@/src/6_shared/Buttons/Sign/Sign";
-import ButtonLink from "@/src/6_shared/Buttons/Link/ButtonLink";
+import SignButton from "@/src/6_shared/ui/Buttons/Sign/Sign";
+import ButtonLink from "@/src/6_shared/ui/Buttons/Link/ButtonLink";
 
 export default function Navbar() {
 
