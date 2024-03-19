@@ -1,17 +1,18 @@
 "use client"
 import { useTheme } from "@emotion/react";
-import {Button as MuiButton} from "@mui/material";
+import {ButtonBaseProps, ButtonOwnProps, Button as MuiButton} from "@mui/material";
 import { PropsWithChildren } from "react";
 
 interface ISignButton{
     sx?: Record<string, any>
+    variant?: 'outlined' | 'contained' | 'text'
 }
 
-export default function Button({children, sx, ...props}: PropsWithChildren<ISignButton>) {
+export default function Button({children, sx, variant}: PropsWithChildren<ISignButton>) {
     const theme = useTheme()
 
     return (
-            <MuiButton sx={{...sx}} {...props}>
+            <MuiButton sx={{...sx}} variant={variant}>
                 {children}
             </MuiButton>
     );

@@ -1,38 +1,20 @@
 "use client"
-import Button from "@/src/6_shared/ui/Buttons/Button";
-import Input from "@/src/6_shared/ui/Inputs/Input";
-import PasswrodInput from "@/src/6_shared/ui/Inputs/PasswrodInput";
-import { Box, Container, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, Paper, Typography } from "@mui/material";
-import { Mail } from "lucide-react";
-import { useState } from "react";
-
+import FormAuth from "@/src/4_features/Forms/Auth/FormAuth";
+import { Box, Container, Paper, Typography } from "@mui/material";
 export default function Sign() {
-
   return (
-   <Container sx={{
-    pt: 8
-   }}>
-    <Box>
-        <Typography>Авторизация</Typography>
-
-        <div>
-            <Box>
-                <Input icon={<Mail/>}/>
+   <Container sx={{pt: 8}}>
+        <Paper sx={{p: 8,m: 3}} elevation={8}>
+            <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                }}>
+                <Typography>Авторизация</Typography>
+                <FormAuth/>
             </Box>
-
-            <Box>
-                <PasswrodInput/>
-            </Box>
-
-            <Box>
-                <Button>Вход</Button>
-            </Box>
-        </div>
-        
-
-        
-      
-    </Box>
+        </Paper>
    </Container>
   );
 }

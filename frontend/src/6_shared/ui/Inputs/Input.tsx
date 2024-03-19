@@ -6,7 +6,7 @@ interface IInput {
     icon: ReactNode
 }
 
-export default function Input({sx, icon}: PropsWithChildren<IInput>) {
+export default function Input({sx, icon, ...props}: PropsWithChildren<IInput>) {
   return (
         <FormControl variant="filled">
             <InputLabel htmlFor="mail">Почта</InputLabel>
