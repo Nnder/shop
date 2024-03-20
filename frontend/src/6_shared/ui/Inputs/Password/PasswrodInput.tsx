@@ -1,17 +1,14 @@
 "use client"
-import { FilledInput, FormControl, IconButton, InputAdornment, InputLabel } from "@mui/material";
+import { FilledInput, FormControl, FormControlProps, IconButton, InputAdornment, InputLabel, InputProps } from "@mui/material";
 import { Eye, EyeOff } from "lucide-react";
-import { PropsWithChildren, useState } from "react";
+import {useState} from "react";
+import { IInput } from "../types.Input";
 
-interface IPasswordInput {
-    sx?: Record<string, any>
-}
-
-export default function PasswrodInput({sx}: PropsWithChildren<IPasswordInput>) {
+export default function PasswrodInput({sx, ...props}: IInput) {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
   return (
-        <FormControl variant="filled">
+        <FormControl variant="filled" {...props as FormControlProps}>
             <InputLabel htmlFor="filled-adornment-password">Пароль</InputLabel>
             <FilledInput sx={{...sx}}
             id="filled-adornment-password"

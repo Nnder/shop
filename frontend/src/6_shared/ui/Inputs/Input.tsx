@@ -1,14 +1,10 @@
-import { FilledInput, FormControl, IconButton, InputAdornment, InputLabel } from "@mui/material";
-import { PropsWithChildren, ReactNode } from "react";
+import { FilledInput, FormControl, FormControlProps, IconButton, InputAdornment, InputLabel} from "@mui/material";
+import { IInput } from "./types.Input";
+import { ChangeEvent } from "react";
 
-interface IInput {
-    sx?: Record<string, any>
-    icon: ReactNode
-}
-
-export default function Input({sx, icon, ...props}: PropsWithChildren<IInput>) {
+export default function Input({sx, icon, ...props}: IInput) {
   return (
-        <FormControl variant="filled">
+        <FormControl variant="filled" {...props as FormControlProps}>
             <InputLabel htmlFor="mail">Почта</InputLabel>
             <FilledInput sx={{...sx}}
             id="mail"

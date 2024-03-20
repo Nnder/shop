@@ -10,7 +10,6 @@ export default function SignButton() {
     const sessin = useSession()
     const user = sessin.data?.user;
   
-  
     return (
         <>
         {sessin.status !== 'authenticated' ? 
@@ -30,5 +29,3 @@ export default function SignButton() {
         </>
     );
   }
-  
-

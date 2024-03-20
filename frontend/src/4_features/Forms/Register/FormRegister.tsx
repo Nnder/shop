@@ -4,7 +4,7 @@ import Input from "@/src/6_shared/ui/Inputs/Input";
 import PasswrodInput from "@/src/6_shared/ui/Inputs/Password/PasswrodInput";
 import { Box} from "@mui/material";
 import { Mail } from "lucide-react";
-export default function FormAuth() {
+export default function FormRegister() {
 
   return (
     <Box sx={{
@@ -15,11 +15,15 @@ export default function FormAuth() {
         width: [200, 250, 350]
     }}>
         <Box sx={{m: 1}}>
-            <Input icon={<Mail/>} onChange={(e)=>console.log(e.target.value)}/>
+            <Input icon={<Mail/>}/>
         </Box>
 
         <Box sx={{m: 1}}>
-            <PasswrodInput onChange={(e)=>console.log(e.target.value)}/>
+            <PasswrodInput/>
+        </Box>
+
+        <Box sx={{m: 1}}>
+            <PasswrodInput/>
         </Box>
 
         <Box sx={{
@@ -29,17 +33,7 @@ export default function FormAuth() {
             flexDirection: 'column',
             width: '100%',
             m: 1}}>
-            <Button sx={{width: ['80%']}}>Вход</Button>
-        </Box>
-
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            width: '100%',
-            m: 1}}>
-                <Button href="/signup" sx={{width: ['80%']}}>Регистрация</Button>
+                <Button sx={{width: ['80%']}}>Регистрация</Button>
             </Box>
     </Box>
   );

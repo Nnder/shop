@@ -1,12 +1,11 @@
 "use client"
-import FormAuth from "@/src/4_features/Forms/Auth/FormAuth";
+import FormRegister from "@/src/4_features/Forms/Register/FormRegister";
 import GoogleAuth from "@/src/4_features/GoogleAuth/GoogleAuth";
 import YandexAuth from "@/src/4_features/YandexAuth/YandexAuth";
-import Button from "@/src/6_shared/ui/Buttons/Button";
 import { Box, Container, Paper, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-export default function SignIn() {
+export default function SignUp() {
     const session = useSession()
     
     if(session.status === "authenticated")
@@ -21,11 +20,11 @@ export default function SignIn() {
                     alignItems: 'center',
                     flexDirection: 'column',
                 }}>
-                <Typography sx={{fontSize: [20, 30]}}>Авторизация</Typography>
-                <FormAuth/>
+                <Typography sx={{fontSize: [20, 30]}}>Регистрация</Typography>
+                <FormRegister/>
                 <Typography  sx={{fontSize:['12px', '15px', '18'], textAlign: 'center'}}>
                     Или войти через
-                </Typography>
+                    </Typography>
                 <Box sx={{display: 'flex', flexDirection: 'column', height: 100, justifyContent: 'space-evenly'}}>
                     <YandexAuth/>
                     <GoogleAuth/>
