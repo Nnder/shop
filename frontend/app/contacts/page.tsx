@@ -10,6 +10,9 @@ export default function Contacts() {
         alignItems: 'center'
        }}>
         <Paper sx={{display: 'flex', flexDirection: 'column'}}>
+          <Typography variant={'h1'} sx={{fontSize: ['20px', '25px', '40px'], textAlign: 'center', my: 1}}>
+          Контакты
+        </Typography>
           <Typography variant={'h4'} sx={{p:3}}>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, ab cupiditate incidunt soluta ducimus corporis eum praesentium molestias voluptatum provident adipisci ratione non quidem qui sit? Quos mollitia consectetur sequi?
           </Typography>
