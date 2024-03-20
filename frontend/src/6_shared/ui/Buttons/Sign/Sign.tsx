@@ -14,7 +14,7 @@ export default function SignButton() {
     return (
         <>
         {sessin.status !== 'authenticated' ? 
-        (<Link href={'api/auth/signin'} passHref>
+        (<Link href={'signin'} passHref>
             <Button >
                 <Typography sx={{
                     color: (theme)=>`${theme.palette.secondary.main}`

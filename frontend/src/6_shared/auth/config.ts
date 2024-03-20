@@ -76,8 +76,8 @@ export const authConfig: AuthOptions = {
             return session
         },
     },
-    // pages: {
-    //     signIn: '/signin'
-    // }
+    pages: {
+        signIn: '/signin'
+    }
 }
 
