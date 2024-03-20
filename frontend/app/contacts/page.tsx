@@ -9,7 +9,7 @@ export default function Contacts() {
         justifyContent: 'center',
         alignItems: 'center'
        }}>
-        <Paper sx={{display: 'flex', flexDirection: 'column'}}>
+        <Paper sx={{display: 'flex', flexDirection: 'column', maxWidth: '100%'}}>
           <Typography variant={'h1'} sx={{fontSize: ['20px', '25px', '40px'], textAlign: 'center', my: 1}}>
           Контакты
         </Typography>
@@ -20,10 +20,7 @@ export default function Contacts() {
             <Box sx={{maxWidth: '100%'}}>
                 <YandexMap/>
             </Box>
-          
         </Paper>
-          
-        
        </Container>
   )
 }

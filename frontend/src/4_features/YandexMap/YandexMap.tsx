@@ -3,8 +3,6 @@ import { YMaps, Map, Placemark } from "react-yandex-maps";
 import React, { useRef, useEffect } from 'react';
 
 export default function YandexMap({ center = [57.942389, 59.912006], zoom = 10 }) {
-
-  // const mapRef = useRef<Props | null>(null); // Define mapRef type explicitly
   const apiKey = process.env.YANDEX_APIKEY_MAP
   const mapRef = useRef<any>(null!);
 
