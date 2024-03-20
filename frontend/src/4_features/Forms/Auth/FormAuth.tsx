@@ -12,7 +12,7 @@ export default function FormAuth() {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        width: [200, 250, 300, 350]
+        width: [200, 250, 350]
     }}>
         <Box sx={{m: 1}}>
             <Input icon={<Mail/>}/>
@@ -29,7 +29,7 @@ export default function FormAuth() {
             flexDirection: 'column',
             width: '100%',
             m: 1}}>
-            <Button variant="contained" sx={{width: ['80%']}}>Вход</Button>
+            <Button sx={{width: ['80%']}}>Вход</Button>
         </Box>
     </Box>
   );
