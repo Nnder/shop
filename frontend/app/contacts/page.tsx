@@ -17,7 +17,7 @@ export default function Contacts() {
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nam, ab cupiditate incidunt soluta ducimus corporis eum praesentium molestias voluptatum provident adipisci ratione non quidem qui sit? Quos mollitia consectetur sequi?
           </Typography>
 
-            <Box sx={{width: '100%'}}>
+            <Box sx={{maxWidth: '100%'}}>
                 <YandexMap/>
             </Box>
           

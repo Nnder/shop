@@ -7,6 +7,7 @@ const nextConfig = {
         GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
         YANDEX_CLIENT_ID: process.env.YANDEX_CLIENT_ID,
         YANDEX_CLIENT_SECRET: process.env.YANDEX_CLIENT_SECRET,
+        YANDEX_APIKEY_MAP: process.env.YANDEX_APIKEY_MAP,
     },
 };
 

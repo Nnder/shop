@@ -5,9 +5,10 @@ import React, { useRef, useEffect } from 'react';
 export default function YandexMap({ center = [57.942389, 59.912006], zoom = 10 }) {
 
   // const mapRef = useRef<Props | null>(null); // Define mapRef type explicitly
-  const apiKey = "d224c45f-431b-4a41-b48d-17cbcb27cbd0";
+  const apiKey = process.env.YANDEX_APIKEY_MAP
   const mapRef = useRef<any>(null!);
 
+  console.log(apiKey)
   useEffect(() => {
     if (mapRef.current) {
       // You can perform any map-related logic here using mapRef.current
