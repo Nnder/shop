@@ -13,7 +13,7 @@ export default function SignIn() {
         redirect('/')
 
   return (
-   <Container sx={{pt: 8}}>
+   <Container>
         <Paper sx={{p: 8,mx: [0, 3], my: 3}} elevation={8}>
             <Box sx={{
                     display: 'flex',

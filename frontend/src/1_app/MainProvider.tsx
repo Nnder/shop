@@ -15,8 +15,17 @@ const theme = createTheme({
       },
       info: {
         main: "#FF4000"
-      }
+      },
     },
+    components: {
+      MuiContainer: {
+        defaultProps: {
+          sx: {
+            pt: 8
+          }
+        }
+      },
+    }
   })
 
 export default function MainProvider({children}: PropsWithChildren) {

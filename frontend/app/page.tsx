@@ -9,9 +9,7 @@ export default function Home() {
 
 
   return (
-   <Container sx={{
-    pt: 8
-   }}>
+   <Container>
     <Paper elevation={16}>
     {sessin.status}
       <Typography variant={'h1'}>
