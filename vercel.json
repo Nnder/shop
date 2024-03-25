@@ -1,4 +1,0 @@
-{
-    "buildCommand": "bun buildWithBack",
-    "framework": "nextjs"
-}
