@@ -4,11 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "devWithBack": "next dev && cd ../backend && npm run develop",
     "build": "next build",
-    "buildW": "next build && cd ../backend && npm run develop",
-    "server": "cd ../backend && yarn develop",
-    "buildWithBack": "concurrently \"cd frontend && bun build\" \"cd ../backend && yarn run develop\"",
     "start": "next start",
     "lint": "next lint"
   },
@@ -31,7 +27,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "concurrently": "^8.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.1.3",
     "postcss": "^8",
