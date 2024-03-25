@@ -8,7 +8,7 @@
     "build": "next build",
     "buildW": "next build && cd ../backend && npm run develop",
     "server": "cd ../backend && yarn develop",
-    "buildWithBack": "concurrently \"bun dev\" \"cd ../backend && yarn develop\"",
+    "buildWithBack": "concurrently \"bun dev\" \"cd ../backend && yarn run develop\"",
     "start": "next start",
     "lint": "next lint"
   },
