@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "buildWithBack": "next build && cd ../backend && npm run develop",
     "start": "next start",
     "lint": "next lint"
   },
@@ -18,6 +19,7 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.1",
     "react-photo-view": "^1.2.4",
     "react-yandex-maps": "^4.6.0"
   },

@@ -14,7 +14,7 @@ const p = {
 export default function About() {
   return (
    <Container>
-    <Paper elevation={16} sx={{p: [1,2]}}>
+    <Paper elevation={16} sx={{px: [0,1], py: 4}}>
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',

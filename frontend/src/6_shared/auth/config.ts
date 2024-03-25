@@ -25,7 +25,7 @@ export const authConfig: AuthOptions = {
             async authorize(credentials) {
                 if (!credentials?.email || !credentials.password) return null
 
-                if (credentials.new) {
+                if (credentials.new === "1") {
                     try {
                         const data = await restClient.post<{
                             user: User
