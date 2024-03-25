@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "devWithBack": "next dev && cd ../backend && npm run develop",
     "build": "next build",
     "buildWithBack": "next build && cd ../backend && npm run develop",
     "start": "next start",
