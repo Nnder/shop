@@ -1,5 +1,8 @@
+"use client"
 import ProductCard from "@/src/4_features/Card/Card";
 import {Box, Container, Paper} from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { restClient } from "@/src/6_shared/api/api.fetch";
 import 'react-photo-view/dist/react-photo-view.css';
 
 const p = {
@@ -12,6 +15,17 @@ const p = {
 }
 
 export default function About() {
+
+
+  const {data, isLoading, isFetching} = useQuery({
+    queryKey: ['chats'],
+    queryFn: context => restClient.get<{data: any}>(
+        `/products`, false),
+    enabled: true
+  })
+
+  console.log(data)
+
   return (
    <Container>
     <Paper elevation={16} sx={{px: [0,1], py: 4}}>

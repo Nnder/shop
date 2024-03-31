@@ -2,7 +2,7 @@ import { AuthOptions, User } from "next-auth";
 import GoogleProvider from 'next-auth/providers/google';
 import YandexProvider from 'next-auth/providers/yandex';
 import Credentials from "next-auth/providers/credentials";
-import { restClient } from "./api.fetch";
+import { restClient } from "../api/api.fetch";
 
 export const authConfig: AuthOptions = {
     providers: [
