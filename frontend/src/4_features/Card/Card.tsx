@@ -16,7 +16,7 @@ export default function ProductCard({product, ...props}: PropsWithChildren<{prod
     const router = useRouter()
     const clickHandler = ()=> router.push(`/products/${product.id}`)
     return (
-        <Card sx={{ maxWidth: ["90%", "45%", "30%", 330 ,330] }}>
+        <Card sx={{ maxWidth: ["90%", "45%", "30%", 330 ,330], border: 1, borderColor: '#4664' }} elevation={8}>
             <CardActionArea onClick={clickHandler}>
             <CardMedia
                 sx={{ height: 140 }}
