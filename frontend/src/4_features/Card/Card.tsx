@@ -1,28 +1,21 @@
 "use client"
+import { Product } from '@/src/5_entities/product/product.types';
 import {Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button} from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 
-interface IProduct {
-    id: number
-    title: string
-    description: string
-    text: string
-    imageSrc: string
-    imageTitle: string
-}
-
-export default function ProductCard({product, ...props}: PropsWithChildren<{product: IProduct}> ) {
+export default function ProductCard({product, ...props}: PropsWithChildren<{product: Product}> ) {
     const router = useRouter()
     const clickHandler = ()=> router.push(`/products/${product.id}`)
     return (
-        <Card sx={{ maxWidth: ["90%", "45%", "30%", 330 ,330], border: 1, borderColor: '#4664' }} elevation={8}>
+        <Card sx={{ width: ["90%", "45%", "30%", 330 ,330], border: 1, borderColor: '#4664' }} elevation={8}>
             <CardActionArea onClick={clickHandler}>
             <CardMedia
-                sx={{ height: 140 }}
-                image={product.imageSrc}
-                title={product.imageTitle}
+                sx={{ height: 140, weight: 140 }}
+                image={'/img/google.svg'}
+                title={"text"}
             />
+            <Typography>{product.weigth}</Typography>
             </CardActionArea>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -38,6 +31,8 @@ export default function ProductCard({product, ...props}: PropsWithChildren<{prod
                 }}>
                 {product.description}
                 </Typography>
+                <Typography>{product.price}</Typography>
+                <Typography>{product.count}</Typography>
             </CardContent>
             <CardActions>
                 <Button sx={{width: "100%"}} size="large">Добавить в корзину</Button>
