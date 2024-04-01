@@ -38,9 +38,7 @@ export default function Contacts() {
               <Typography variant={'h5'} sx={{ml:1, fontSize:["0.7rem","1rem","1.25rem","1.5rem"]}}>Почта: dedkov.roma@gmail.ru</Typography>
             </Box>
           </Box>
-
           
-
           <Box sx={{maxWidth: '100%'}}>
             <YandexMap/>
           </Box>

@@ -1,5 +1,4 @@
 "use client"
-
 import ProductCard from "@/src/4_features/Card/Card";
 import { useQuery } from "@tanstack/react-query";
 import { restClient } from "@/src/6_shared/api/api.fetch";
