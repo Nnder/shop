@@ -13,7 +13,21 @@ export default function About() {
       </Typography>
       <Box>
         <Typography variant="h2" sx={{fontSize: ['12px', '15px', '20px'], my: 1}}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium voluptas quos, perferendis, aut cupiditate saepe tempora impedit dicta praesentium explicabo minima. Quidem error ipsam autem. Facilis neque tempore vero reprehenderit!
+          "УПК" - это семейная компания, основанная в 2005 году в живописном регионе Свердловской области. Мы специализируемся на производстве и продаже высококачественной мясной продукции, соблюдая традиции и стандарты крафтового производства.
+        </Typography>
+
+        <Typography variant="h2" sx={{fontSize: ['12px', '15px', '20px'], my: 1}}>
+          Наш ассортимент включает свежие мясные деликатесы, колбасы ручной работы, вяленое мясо, домашние консервы и готовые блюда. Мы используем только натуральные ингредиенты и следим за качеством каждого этапа производства.
+        </Typography>
+
+        <Typography variant="h2" sx={{fontSize: ['12px', '15px', '20px'], my: 1}}>
+          Наша миссия - радовать клиентов вкусными и качественными мясными изделиями, способствуя здоровому и сбалансированному питанию каждой семьи. Мы стремимся стать лучшим партнером для наших клиентов и создать атмосферу доверия и удовлетворения.
+        </Typography>
+      </Box>
+
+      <Box>
+        <Typography variant="h2" sx={{fontSize: ['12px', '15px', '20px'], my: 1}}>
+          Ниже представлен план здания нашей фирмы (рисунок 1).
         </Typography>
       </Box>
 
@@ -27,12 +41,12 @@ export default function About() {
        <ImageViewer src="https://new-world-rpg.ru/wp-content/uploads/d/e/5/de5b6d3deb5540650d56e6415e191714.jpeg" 
        width={'90%'} height={'100%'} alt="Документ 1"/>
 
-        <Typography>Элемент 1</Typography>
+        <Typography sx={{mt:2}}>рисунок 1 - План здания "УПК"</Typography>
       </Box>
 
       <Box>
         <Typography variant="h2" sx={{fontSize: ['12px', '15px', '20px'], my: 1}}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium voluptas quos, perferendis, aut cupiditate saepe tempora impedit dicta praesentium explicabo minima. Quidem error ipsam autem. Facilis neque tempore vero reprehenderit!
+          Показатели содержания элементов в вареной колбасе (рисунок 2).
         </Typography>
       </Box>
 
@@ -47,7 +61,7 @@ export default function About() {
         <ImageViewer src="https://alternativa-sar.ru/images/Rats_v_kolbas/Tab_105.jpg" 
         width={'90%'} height={'100%'} alt="Документ 1"/>
 
-        <Typography>Элемент 2</Typography>
+        <Typography sx={{mt:2}}>рисунок 2 - Показатели</Typography>
       </Box>
     </Paper>
    </Container>
