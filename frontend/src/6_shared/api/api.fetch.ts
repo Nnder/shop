@@ -2,6 +2,7 @@ import {HeadersInit} from "undici-types";
 
 class FetchClient {
     private API_URL = process.env.API_URL as string
+    private BACK_URL = process.env.BACK_URL as string
 
     constructor(private defaultHeaders: Record<string, string> = {}) {}
     
@@ -46,6 +47,10 @@ class FetchClient {
         headers?: Record<string, string>
     ):Promise<T>{
         return this.fetch<T>(path, 'PATCH', isAuth, body, headers)
+    }
+
+    getMediaUrl(path: string){
+        return `${this.BACK_URL}${path}`;
     }
 
     private async fetch<T>(

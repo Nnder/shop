@@ -3,10 +3,18 @@ export interface Product {
     title: string
     text: string
     description: string
-    price: number
-    weigth: number
-    count: number
+    price: number | null
+    weigth: number | null
+    count: number | null
     createdAt: Date
     updatedAt: Date
     date: Date
+    images: Image[] | null
+}
+
+interface Image {
+    id: number
+    name: string
+    alternativeText: string
+    url: string
 }

@@ -1,19 +1,23 @@
 "use client"
 import { Product } from '@/src/5_entities/product/product.types';
+import { restClient } from '@/src/6_shared/api/api.fetch';
 import {Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button} from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
 
 export default function ProductCard({product, ...props}: PropsWithChildren<{product: Product}> ) {
     const router = useRouter()
     const clickHandler = ()=> router.push(`/products/${product.id}`)
-    const [count, setCount] = useState(0);
+   
+    
     return (
         <Card sx={{ width: ["90%", "45%", "30%", 330 ,330], border: 1, borderColor: '#4664' }} elevation={8}>
             <CardActionArea onClick={clickHandler} sx={{position: 'relative'}}>
                 <CardMedia
                     sx={{ height: 140, weight: 140}}
-                    image={'/img/google.svg'}
+                    image={product?.images?.length ?
+                        restClient.getMediaUrl(product.images[0].url) : "/img/google.svg"
+                    }
                     title={"text"}
                 />
                 { product.price && product.weigth ? 
