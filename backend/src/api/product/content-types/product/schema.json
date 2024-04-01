@@ -32,7 +32,7 @@
       },
       "type": "text"
     },
-    "image": {
+    "images": {
       "type": "media",
       "multiple": true,
       "required": false,
@@ -84,18 +84,6 @@
         }
       },
       "type": "biginteger"
-    },
-    "MainImage": {
-      "allowedTypes": [
-        "images"
-      ],
-      "type": "media",
-      "multiple": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
     }
   }
 }

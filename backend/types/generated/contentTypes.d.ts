@@ -391,7 +391,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    image: Attribute.Media &
+    images: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -425,12 +425,6 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
-        };
-      }>;
-    MainImage: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;
