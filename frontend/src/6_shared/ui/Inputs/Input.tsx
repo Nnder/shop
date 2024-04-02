@@ -3,10 +3,10 @@ import { FilledInput, FormControl, FormControlProps, IconButton, InputAdornment,
 import { IInput } from "./types.Input";
 import { ChangeEvent } from "react";
 
-export default function Input({sx, icon, ...props}: IInput) {
+export default function Input({sx, icon, label = "", ...props}: IInput) {
   return (
         <FormControl variant="filled" {...props as FormControlProps}>
-            <InputLabel htmlFor="mail">Почта</InputLabel>
+            <InputLabel htmlFor="mail">{label}</InputLabel>
             <FilledInput sx={{...sx}}
             id="mail"
             type='text'

@@ -8,11 +8,9 @@ export default function About() {
     <Paper elevation={16} sx={{px: [0,1], py: 4, minHeight: "100px"}}>
       <Box sx={{
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        flexWrap: 'wrap',
-        gap: [1,2,3,4]
     }}>
         <CardList/>
       </Box>

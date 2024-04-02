@@ -5,4 +5,5 @@ import { PropsWithChildren, ReactNode } from "react";
 
 export interface IInput extends PropsWithChildren<InputProps> {
     icon?: ReactNode
+    label?: string
 }
