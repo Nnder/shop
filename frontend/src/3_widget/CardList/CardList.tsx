@@ -5,13 +5,13 @@ import Loader from "@/src/6_shared/ui/Loader/Loader";
 import { Box } from "@mui/material";
 import Find from "@/src/4_features/Find/Find";
 import { ChangeEvent, useState } from "react";
-import { getProducts } from "@/src/5_entities/product/product";
+import { GetProducts } from "@/src/5_entities/product/product";
 import { useDebounce } from "@/src/6_shared/hooks/useDebounce";
 
 export default function CardList() {
     const [find, setFind] = useState("");
     const debouncedFind = useDebounce<string>(find, 1000);
-    const {data, isLoading, isFetching} = getProducts(debouncedFind)
+    const {data, isLoading, isFetching} = GetProducts(debouncedFind)
 
     const ChangeHandler = (e: ChangeEvent<HTMLInputElement>)=>{
         const value = e.target.value
