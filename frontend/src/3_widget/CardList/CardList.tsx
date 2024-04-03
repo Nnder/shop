@@ -31,7 +31,8 @@ export default function CardList() {
             alignItems: 'center',
             justifyContent: 'center',
             flexWrap: 'wrap',
-            gap: [1,2,3,4]
+            gap: [1,2,3,4],
+            width: 1,
         }}>
 
             {isFetching || isLoading ? <Loader/> :
