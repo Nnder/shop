@@ -8,7 +8,7 @@ export default function PasswrodInput({sx, ...props}: IInput) {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
   return (
-        <FormControl variant="filled" {...props as FormControlProps}>
+        <FormControl variant="filled" >
             <InputLabel htmlFor="filled-adornment-password">Пароль</InputLabel>
             <FilledInput sx={{...sx}}
             id="filled-adornment-password"

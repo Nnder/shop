@@ -38,8 +38,8 @@ export default function About() {
         flexDirection: 'column',
         mb: 2
       }}>
-       <ImageViewer src="https://new-world-rpg.ru/wp-content/uploads/d/e/5/de5b6d3deb5540650d56e6415e191714.jpeg" 
-       width={'90%'} height={'100%'} alt="Документ 1"/>
+       <ImageViewer src="/img/plan.jpeg" 
+       width={"90%"} height={"100%"} alt="Документ 1"/>
 
         <Typography sx={{mt:2}}>рисунок 1 - План здания УПК</Typography>
       </Box>
@@ -58,8 +58,8 @@ export default function About() {
         mb: 2
       }}>
 
-        <ImageViewer src="https://alternativa-sar.ru/images/Rats_v_kolbas/Tab_105.jpg" 
-        width={'90%'} height={'100%'} alt="Документ 1"/>
+        <ImageViewer src="/img/img1.jpg" 
+        width={"90%"} height={"100%"} alt="Документ 1"/>
 
         <Typography sx={{mt:2}}>рисунок 2 - Показатели</Typography>
       </Box>

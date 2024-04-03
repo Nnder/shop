@@ -1,19 +1,11 @@
 'use client'
+import { user } from "@/src/5_entities/user/user.types";
 import Button from "@/src/6_shared/ui/Buttons/Button";
-import Input from "@/src/6_shared/ui/Inputs/Input";
-import PasswrodInput from "@/src/6_shared/ui/Inputs/Password/PasswrodInput";
-import { Box} from "@mui/material";
-import { Mail } from "lucide-react";
+import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
+import { Box } from "@mui/material";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {SubmitHandler, useForm} from 'react-hook-form';
-
-interface user {
-    username?: string
-    email: string
-    password: string
-    new?: string
-}
 
 export default function FormAuth() {
     const router = useRouter()
@@ -23,7 +15,6 @@ export default function FormAuth() {
     })
 
     const {data} = useSession()
-
     const onSubmit:SubmitHandler<user> = async (data)=>{
 
         const response = await signIn(
@@ -35,10 +26,8 @@ export default function FormAuth() {
         )
 
         if (response?.error) {
-            console.log("error");
+            console.log(response.status);
         }
-
-        
     }
 
   return (
@@ -49,15 +38,13 @@ export default function FormAuth() {
         flexDirection: 'column',
         width: [200, 250, 350]
     }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} style={{display:'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <Box sx={{m: 1}}>
-                <input {...register('email', {required: true,})} type='email'/>
-                {/* <Input {...register('email', {required: true,})} icon={<Mail/>} type='email' onChange={(e)=>console.log(e.target.value)}/> */}
+                <FormInput {...register('email', {required: true,})} type='email' placeholder="Почта"/>
             </Box>
 
             <Box sx={{m: 1}}>
-                <input {...register('password', {required: true,})} type='password'/>
-                {/* <PasswrodInput {...register('password', {required: true,})} type='password' onChange={(e)=>console.log(e.target.value)}/> */}
+                <FormInput {...register('password', {required: true,})} type='password' placeholder="Пароль"/>
             </Box>
 
             <Box sx={{
@@ -83,8 +70,3 @@ export default function FormAuth() {
     </Box>
   );
 }
-
-
-
-
-
