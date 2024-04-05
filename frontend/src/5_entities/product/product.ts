@@ -10,3 +10,12 @@ export function GetProducts(find = ""){
         enabled: true
       })
 }
+
+export function GetProduct(id: number){
+    return useQuery({
+        queryKey: ['product', id],
+        queryFn: context => restClient.get<{data: Product}>(
+            `/products/${id}?populate=*`, false),
+        enabled: true
+      })
+}

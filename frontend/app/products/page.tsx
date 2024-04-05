@@ -5,7 +5,7 @@ export default function About() {
 
   return (
    <Container>
-    <Paper elevation={16} sx={{px: [0,1], py: 4, minHeight: "100px"}}>
+    <Paper elevation={16} sx={{px: [0,1], py: 2, minHeight: "100px"}}>
       <Box sx={{
         display: 'flex',
         flexDirection: 'column',
