@@ -1,25 +1,28 @@
 "use client"
 import { restClient } from "@/src/6_shared/api/api.fetch";
-import Image from "mui-image";
+import { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import 'react-photo-view/dist/react-photo-view.css';
-
+import styles from './ProductImages.module.css'
 
 export default function ProductImages({images}: any) {
     console.log(images[0])
+    const [hoverImg, setHoverImg] = useState(images[0].url);
   return (
     <div>
         <PhotoProvider>
-            {/* <PhotoView src={images[0].src}>
-                <Image src={images[0].src} alt="docs" width={500} height={500}/>
-            </PhotoView> */}
+            <PhotoView src={restClient.getMediaUrl(hoverImg)}>
+                <img src={restClient.getMediaUrl(hoverImg)} alt={"main"} width={"100%"} height={"300px"} className={styles.main_image} />
+            </PhotoView>
 
-            <div className="foo">
-                {images.map((item: any, index: number) => (
+
+            <div className={styles.slider_wrapper}>
+                {images.map((item: any, index: number) => 
                 <PhotoView key={index} src={restClient.getMediaUrl(item.url)}>
-                    <img src={restClient.getMediaUrl(item.url)} alt={item.name} width={100} height={100}/>
+                    <img src={restClient.getMediaUrl(item.formats.medium.url)} alt={item.name} width={100} height={100} 
+                    onPointerEnter={()=>setHoverImg(item.url)} className={styles.image_slide}/>
                 </PhotoView>
-                ))}
+                )}
             </div>
         </PhotoProvider>
     </div>

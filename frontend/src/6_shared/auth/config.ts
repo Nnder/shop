@@ -30,7 +30,9 @@ export const authConfig: AuthOptions = {
                         const data = await restClient.post<{
                             user: User
                             jwt: string
-                        }>(`/auth/local/register`, credentials)
+                        }>(`/auth/local/register`, credentials, false, {
+                                'Content-Type': 'application/json'
+                        })
 
                         return {
                             id: data.user.id.toString(),
@@ -51,7 +53,9 @@ export const authConfig: AuthOptions = {
                     }>(`/auth/local`, {
                         identifier: credentials.email,
                         password: credentials.password,
-                    })
+                    } , false, {
+                        'Content-Type': 'application/json'
+                })
 
                     return {
                         id: data.user.id.toString(),

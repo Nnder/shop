@@ -2,7 +2,6 @@
 import FormAuth from "@/src/4_features/Forms/Auth/FormAuth";
 import GoogleAuth from "@/src/4_features/GoogleAuth/GoogleAuth";
 import YandexAuth from "@/src/4_features/YandexAuth/YandexAuth";
-import Button from "@/src/6_shared/ui/Buttons/Button";
 import { Box, Container, Paper, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
