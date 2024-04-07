@@ -5,14 +5,17 @@ import Button from "@/src/6_shared/ui/Buttons/Button";
 import { Box, Typography } from "@mui/material";
 import Image from "mui-image";
 import { PropsWithChildren } from "react";
+import ProductImages from "../ProductImages/ProductImages";
 
 export default function ProductInfo({data, ...props}: PropsWithChildren<{data: Product}>) {
+    console.log(data.images)
   return (
     <Box>
         <Box sx={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', width: 1}}>
             <Box sx={{width: ["95%", "95%", "47%"] ,pr: [0,0,1]}}>
                 <Image src={data.images?.length ? restClient.getMediaUrl(data.images[0].url) : "img/card.jpg" } 
                 alt={data?.images?.length ? data.images[0].alternativeText : 'alt'} width={"100%"} height={"300px"}/>
+                {data.images?.length ? ( <ProductImages images={data.images}/>) : null}
             </Box>
             <Box sx={{width: ["95%", "95%", "50%"], mt:{xs:2, sm:2, md:0}}}>
                 <Typography variant="h1" sx={{fontSize: ["20px","25px","30px"], fontWeight: 400, mb:1}} >
@@ -33,6 +36,10 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
             </Box>
 
             <Box sx={{mt:2, px:[1,2,1,1]}} >
+                <Typography variant="h3" sx={{fontSize: ["15px","18px","20px"], mb:1}}>
+                    {data.text}
+                </Typography>
+
                 <Typography variant="h3" sx={{fontSize: ["15px","18px","20px"]}}>
                     {data.description}
                 </Typography>

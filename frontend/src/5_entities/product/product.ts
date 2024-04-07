@@ -6,7 +6,9 @@ export function GetProducts(find = ""){
     return useQuery({
         queryKey: ['products', find],
         queryFn: context => restClient.get<{data: Product[]}>(
-            `/products?populate=*&filters[title][$contains]=${find}`, false),
+            `/products?populate=*&filters[title][$contains]=${find}`, false, {
+                'Content-Type': 'application/json'
+            }),
         enabled: true
       })
 }
@@ -15,7 +17,9 @@ export function GetProduct(id: number){
     return useQuery({
         queryKey: ['product', id],
         queryFn: context => restClient.get<{data: Product}>(
-            `/products/${id}?populate=*`, false),
+            `/products/${id}?populate=*`, false, {
+                'Content-Type': 'application/json'
+            }),
         enabled: true
       })
 }
