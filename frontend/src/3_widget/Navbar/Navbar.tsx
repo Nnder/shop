@@ -39,7 +39,7 @@ export default function Navbar() {
         </Box>
 
         <Box>
-            <Button sx={{color: (theme)=>`${theme.palette.secondary.main}`, position: 'relative', }}>
+            <ButtonLink sx={{color: (theme: any)=>`${theme.palette.secondary.main}`, position: 'relative', }} href={'/bucket'}>
                 <ShoppingBasket size={35}/>
                 <Typography sx={{position: 'absolute', top:0, right:()=>{
                     if(products.length>99)
@@ -52,7 +52,7 @@ export default function Navbar() {
                     {products.length ? products.length : null}
                 </Typography>
                 
-            </Button>
+            </ButtonLink>
             <SignButton/>
         </Box>
     </Toolbar>

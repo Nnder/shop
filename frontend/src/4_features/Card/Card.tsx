@@ -1,13 +1,29 @@
 "use client"
+import { useBidStore } from '@/src/5_entities/bid/bid';
 import { Product } from '@/src/5_entities/product/product.types';
 import { restClient } from '@/src/6_shared/api/api.fetch';
 import {Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button} from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 
 export default function ProductCard({product, ...props}: PropsWithChildren<{product: Product}> ) {
     const router = useRouter()
     const clickHandler = ()=> router.push(`/products/${product.id}`)
+
+    const [inBucket, setInBucket] = useState<Boolean>(false);
+    const {products, addProduct, removeProduct, existInBid } = useBidStore()
+
+    useEffect(()=>{
+        setInBucket(existInBid(product)(products))
+        console.log(inBucket)
+        console.log(products)
+        console.log(existInBid(product)(products))
+    }, [products.length])
+
+
+    function handleClick(){
+        inBucket ? removeProduct(product) : addProduct(product)
+    }
     
     return (
         <Card sx={{ width: ["90%", "45%", "30%", 330 ,330], border: 1, borderColor: '#4664' }} elevation={8}>
@@ -65,7 +81,7 @@ export default function ProductCard({product, ...props}: PropsWithChildren<{prod
                 
             </CardContent>
             <CardActions>
-                <Button sx={{width: "100%"}} size="large">Добавить в корзину</Button>
+                <Button sx={{width: "100%"}} size="large" onClick={()=>handleClick()}>{inBucket ? "Убрать из корзины" : "Добавить в корзину"}</Button>
             </CardActions>
         </Card>
   );
