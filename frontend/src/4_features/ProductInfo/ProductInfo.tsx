@@ -2,11 +2,28 @@
 import { Product } from "@/src/5_entities/product/product.types";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { Box, Typography } from "@mui/material";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import ProductImages from "../ProductImages/ProductImages";
+import { useBidStore } from "@/src/5_entities/bid/bid";
 
 export default function ProductInfo({data, ...props}: PropsWithChildren<{data: Product}>) {
     console.log(data.images)
+    const [inBucket, setInBucket] = useState<Boolean>(false);
+    const {products, addProduct, removeProduct, existInBid } = useBidStore()
+
+    useEffect(()=>{
+        setInBucket(existInBid(data)(products))
+        console.log(inBucket)
+        console.log(products)
+        console.log(existInBid(data)(products))
+    }, [products.length])
+
+
+    function handleClick(){
+        inBucket ? removeProduct(data) : addProduct(data)
+        
+    }
+
   return (
     <Box>
         <Box sx={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', width: 1}}>
@@ -25,7 +42,7 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
                     <Typography variant="h2" sx={{fontSize: ["20px","20px","25px"], fontWeight: 900, mb:1}}>
                         {data.price} руб./ {data.weigth} г
                     </Typography> ): null}
-                    <Button sx={{mx:0, width: 1}}>Добавить в корзину</Button> 
+                    <Button sx={{mx:0, width: 1}} onClick={()=>handleClick()}>{inBucket ? "Убрать из корзины" : "Добавить в корзину"}</Button> 
                 </Box>
 
                 
