@@ -2,26 +2,13 @@
 import { Product } from "@/src/5_entities/product/product.types";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { Box, Typography } from "@mui/material";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren } from "react";
 import ProductImages from "../ProductImages/ProductImages";
-import { useBidStore } from "@/src/5_entities/bid/bid";
+import { useBucket } from "@/src/6_shared/hooks/useBucket";
 
 export default function ProductInfo({data, ...props}: PropsWithChildren<{data: Product}>) {
     console.log(data.images)
-    const [inBucket, setInBucket] = useState<Boolean>(false);
-    const {products, addProduct, removeProduct, existInBid } = useBidStore()
-
-    useEffect(()=>{
-        setInBucket(existInBid(data)(products))
-        console.log(inBucket)
-        console.log(products)
-        console.log(existInBid(data)(products))
-    }, [products.length])
-
-
-    function handleClick(){
-        inBucket ? removeProduct(data) : addProduct(data)
-    }
+    const {inBucket, handleClick} = useBucket(data)
 
   return (
     <Box>
