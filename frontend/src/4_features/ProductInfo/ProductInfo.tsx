@@ -2,7 +2,6 @@
 import { Product } from "@/src/5_entities/product/product.types";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { Box, Typography } from "@mui/material";
-import Image from "mui-image";
 import { PropsWithChildren } from "react";
 import ProductImages from "../ProductImages/ProductImages";
 
@@ -12,8 +11,6 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
     <Box>
         <Box sx={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', width: 1}}>
             <Box sx={{width: ["95%", "95%", "47%"] ,pr: [0,0,1]}}>
-                {/* <Image src={data.images?.length ? restClient.getMediaUrl(data.images[0].url) : "img/card.jpg" } 
-                alt={data?.images?.length ? data.images[0].alternativeText : 'alt'} width={"100%"} height={"300px"}/> */}
                 {data.images?.length ? ( <ProductImages images={data.images}/>) : null}
             </Box>
             <Box sx={{width: ["95%", "95%", "50%"], mt:{xs:2, sm:2, md:0}}}>
@@ -43,12 +40,7 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
                     {data.description}
                 </Typography>
             </Box>
-
-            
         </Box>
-
-        
     </Box> 
-   
   )
 }

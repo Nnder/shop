@@ -17,4 +17,5 @@ interface Image {
     name: string
     alternativeText: string
     url: string
+    formats: Record<string, any>[]
 }

@@ -6,7 +6,6 @@ import 'react-photo-view/dist/react-photo-view.css';
 import styles from './ProductImages.module.css'
 
 export default function ProductImages({images}: any) {
-    console.log(images[0])
     const [hoverImg, setHoverImg] = useState(images[0].url);
   return (
     <div>
@@ -14,7 +13,6 @@ export default function ProductImages({images}: any) {
             <PhotoView src={restClient.getMediaUrl(hoverImg)}>
                 <img src={restClient.getMediaUrl(hoverImg)} alt={"main"} width={"100%"} height={"300px"} className={styles.main_image} />
             </PhotoView>
-
 
             <div className={styles.slider_wrapper}>
                 {images.map((item: any, index: number) => 

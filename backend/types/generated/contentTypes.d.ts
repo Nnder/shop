@@ -362,6 +362,42 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiBidBid extends Schema.CollectionType {
+  collectionName: 'bids';
+  info: {
+    singularName: 'bid';
+    pluralName: 'bids';
+    displayName: 'Bid';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    status: Attribute.Enumeration<['payed', 'new', 'completed']> &
+      Attribute.DefaultTo<'new'>;
+    products: Attribute.Relation<
+      'api::bid.bid',
+      'oneToMany',
+      'api::product.product'
+    >;
+    FIO: Attribute.String;
+    phone: Attribute.String;
+    Message: Attribute.RichText;
+    users_permissions_user: Attribute.Relation<
+      'api::bid.bid',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::bid.bid', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::bid.bid', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProductProduct extends Schema.CollectionType {
   collectionName: 'products';
   info: {
@@ -859,6 +895,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    bids: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::bid.bid'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -886,6 +927,7 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::bid.bid': ApiBidBid;
       'api::product.product': ApiProductProduct;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
