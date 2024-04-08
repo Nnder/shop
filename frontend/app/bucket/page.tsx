@@ -1,4 +1,5 @@
 'use client'
+import BucketItem from "@/src/4_features/BucketItem/BucketItem";
 import { useBidStore } from "@/src/5_entities/bid/bid";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 
@@ -17,11 +18,8 @@ export default function page() {
 
             <Box>
                 {products.length ? products.map((product)=>(
-                    <Box key={product.id}>
-                        <div>{product.title}</div>
-                        <div>count <Button>Удалить</Button></div>
-                    </Box>
-                )) : <Typography>Тут пусто</Typography>}
+                <BucketItem key={product.id} product={product}/>)) 
+                : <Typography>Тут пусто</Typography>}
 
             </Box>
 
