@@ -21,7 +21,6 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
 
     function handleClick(){
         inBucket ? removeProduct(data) : addProduct(data)
-        
     }
 
   return (

@@ -1,16 +1,18 @@
 "use client"
 import { useTheme } from "@emotion/react";
-import {Box, Button, AppBar, Toolbar} from "@mui/material";
+import {Box, Button, AppBar, Toolbar, Typography} from "@mui/material";
 import {ShoppingBasket} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import SignButton from "@/src/6_shared/ui/Buttons/Sign/Sign";
 import ButtonLink from "@/src/6_shared/ui/Buttons/Link/ButtonLink";
 import NavbarMobileMenu from "@/src/4_features/NavbarMobileMunu/NavbarMobileMenu";
+import { useBidStore } from "@/src/5_entities/bid/bid";
 
 
 export default function Navbar() {
    const theme = useTheme();
+   const {products} = useBidStore()
 
   return (
    <AppBar sx={{px: [0,0,10]}}>
@@ -37,8 +39,19 @@ export default function Navbar() {
         </Box>
 
         <Box>
-            <Button sx={{color: (theme)=>`${theme.palette.secondary.main}`}}>
+            <Button sx={{color: (theme)=>`${theme.palette.secondary.main}`, position: 'relative', }}>
                 <ShoppingBasket size={35}/>
+                <Typography sx={{position: 'absolute', top:0, right:()=>{
+                    if(products.length>99)
+                        return -5
+                    else if(products.length>9)
+                        return -2
+                    else 
+                        return 0
+                }, textAlign: 'center', width:'30px', color: 'green'}}>
+                    {products.length ? products.length : null}
+                </Typography>
+                
             </Button>
             <SignButton/>
         </Box>
