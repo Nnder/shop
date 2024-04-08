@@ -12,7 +12,7 @@ export default function page() {
         pt: 8
        }}>
         <Paper elevation={16} sx={{p: [1,2]}}>
-            <Typography>
+            <Typography textAlign={'center'} variant="h4">
                 Корзина
             </Typography>
 
