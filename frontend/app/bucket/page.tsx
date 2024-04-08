@@ -4,7 +4,7 @@ import { useBidStore } from "@/src/5_entities/bid/bid";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 
 
-export default function page() {
+export default function Bucket() {
 
     const {products, removeProduct} = useBidStore()
   return (
