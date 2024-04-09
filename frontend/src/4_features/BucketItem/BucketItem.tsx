@@ -5,18 +5,22 @@ import { Box, Paper, Typography } from "@mui/material";
 import { PropsWithChildren, useState } from "react";
 
 export default function BucketItem({product ,...props}: PropsWithChildren<{product: Product}>) {
-    const {removeProduct} = useBidStore()
-    const [count, setCount] = useState(1)
+    const {removeProduct, productCount, addProductCount, removeProductCount, getProductCount} = useBidStore()
+    const [count, setCount] = useState(product.count ? getProductCount(product) : null)
+
+    console.log(count)
 
     function increase(count: number){
         if(product?.count && count < product.count){
             setCount(++count)
+            addProductCount(product)
         }
     }
 
     function decrease(count: number){
         if(product?.count && count !== 1){
             setCount(--count)
+            removeProductCount(product)
         }
     }
   return (
@@ -30,15 +34,18 @@ export default function BucketItem({product ,...props}: PropsWithChildren<{produ
             </Box>
             
             <Box sx={{
-                display: 'flex', justifyContent:{xs:'center', sm:'space-between'}, alignItems:'center', flexDirection:{xs:'column', sm:'row'},
+                display: 'flex', justifyContent:{xs:'center', sm:'flex-end'}, flexDirection:{xs:'column', sm:'row'},
                 width: {xs: 1, sm: 210}, 
                 }}>
+
+                {!!count && count>=0 ? 
                 <Box sx={{display: 'flex', justifyContent:'space-between', alignItems:'center', width: 100, marginBottom:{xs:1, sm:0}}}>
                     <Button sx={{minWidth: "10px", px: 2, py: 0.5, fontSize:20}} variant="text" onClick={()=>increase(count)}>+</Button>
                     <Typography>{count}</Typography>
                     <Button sx={{minWidth: "10px", px: 2, py: 0.5, fontSize:20}} variant="text" onClick={()=>decrease(count)}>–</Button>
-                </Box>
-                <Button onClick={()=> removeProduct(product)} sx={{width:1}}>Удалить</Button>
+                </Box> : null
+                }
+                <Button onClick={()=> removeProduct(product)} sx={{width:{xs: 1, sm: 114}}} >Удалить</Button>
             </Box>
         </Paper>
     </Box>

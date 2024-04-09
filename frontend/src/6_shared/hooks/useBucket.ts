@@ -4,18 +4,10 @@ import { useEffect, useState } from "react";
 
 export function useBucket(product: Product){
     const [inBucket, setInBucket] = useState<Boolean>(false);
-    const {products, addProduct, removeProduct, existInBid, count, productCount } = useBidStore()
+    const {count, addProduct, removeProduct, existInBid,} = useBidStore()
 
     useEffect(()=>{
-        setInBucket(existInBid(product)(products))
-        console.log("-----------")
-        console.log(count)
-        console.log(inBucket)
-        console.log(products)
-        console.log(existInBid(product)(products))
-        console.log(productCount)
-        
-        
+        setInBucket(existInBid(product))  
     }, [count])
 
     const handleClick = (): void => {
