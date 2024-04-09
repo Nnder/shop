@@ -389,6 +389,7 @@ export interface ApiBidBid extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    counts: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::bid.bid', 'oneToOne', 'admin::user'> &

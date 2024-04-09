@@ -20,11 +20,10 @@ export default function Bucket() {
                 {products.length ? products.map((product)=>(
                 <BucketItem key={product.id} product={product}/>)) 
                 : <Typography>Тут пусто</Typography>}
-
             </Box>
 
             {/* <Box>
-                <Typography>
+                <Typography textAlign={'center'} variant="h4">
                     Прошлые покупки
                 </Typography>
             </Box> */}
