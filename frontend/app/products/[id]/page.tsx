@@ -4,7 +4,7 @@ import { GetProduct } from "@/src/5_entities/product/product";
 import Loader from "@/src/6_shared/ui/Loader/Loader";
 import {Box, Container, Paper} from "@mui/material";
 
-export default function About({ params }: { params: { id: number } }) {
+export default function ProductElement({ params }: { params: { id: number } }) {
 
     const {data, isLoading, isFetching} = GetProduct(params.id)
 

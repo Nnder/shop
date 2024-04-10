@@ -2,6 +2,7 @@ import { useBidStore } from "@/src/5_entities/bid/bid";
 import { Product } from "@/src/5_entities/product/product.types";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { Box, Paper, Typography } from "@mui/material";
+import Link from "next/link";
 import { PropsWithChildren, useState } from "react";
 
 export default function BucketItem({product ,...props}: PropsWithChildren<{product: Product}>) {
@@ -27,10 +28,12 @@ export default function BucketItem({product ,...props}: PropsWithChildren<{produ
     <Box {...props} sx={{ marginBottom: 1, display: 'flex', justifyContent:'center', alignItems:'center',}}>
         <Paper elevation={16} sx={{width: 1, display: {xs: 'flex', sm:'grid'}, gridTemplateColumns: '1fr 210px', p: 1, flexDirection:'column'}}>
             <Box sx={{display: 'flex', alignItems:'center', justifyContent:{xs:'center', sm:'flex-start'}}}>
-                <Typography 
-                sx={{WebkitLineClamp: {xs:2, sm:1}, WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', height: {xs:'50px' ,sm:'25px'}, overflow: 'hidden', fontSize:[16,16,18,20,20]}}>
-                    {product.title}
-                </Typography>
+                <Link href={`products/${product.id}`} passHref style={{textDecoration: 'none', color: 'rgba(0, 0, 0, 0.87)'}}>
+                    <Typography 
+                    sx={{WebkitLineClamp: {xs:2, sm:1}, WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', height: {xs:'50px' ,sm:'25px'}, overflow: 'hidden', fontSize:[16,16,18,20,20]}}>
+                        {product.title}
+                    </Typography>
+                </Link>
             </Box>
             
             <Box sx={{
@@ -45,7 +48,7 @@ export default function BucketItem({product ,...props}: PropsWithChildren<{produ
                     <Button sx={{minWidth: "10px", px: 2, py: 0.5, fontSize:20}} variant="text" onClick={()=>decrease(count)}>–</Button>
                 </Box> : null
                 }
-                <Button onClick={()=> removeProduct(product)} sx={{width:{xs: 1, sm: 114}}} >Удалить</Button>
+                <Button onClick={()=> removeProduct(product)} sx={{width:{xs: 1, sm: 114, maxHeight: 36.5}}} >Удалить</Button>
             </Box>
         </Paper>
     </Box>

@@ -1,6 +1,6 @@
-.image_slide {
+/* .image_slide {
     margin: 0 auto;
-}
+} */
 
 .image_slide:nth-child(0){
     margin-left:  0;
@@ -17,7 +17,7 @@
     overflow: hidden;
     flex-wrap: wrap;
     height: 100px;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 }
 

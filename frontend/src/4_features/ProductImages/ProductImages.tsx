@@ -17,7 +17,7 @@ export default function ProductImages({images}: any) {
             <div className={styles.slider_wrapper}>
                 {images.map((item: any, index: number) => 
                 <PhotoView key={index} src={restClient.getMediaUrl(item.url)}>
-                    <img src={restClient.getMediaUrl(item.formats.medium.url)} alt={item.name} width={100} height={100} 
+                    <img src={restClient.getMediaUrl(item?.formats?.medium ? item.formats.medium.url : item.url)} alt={item.name} width={100} height={100} 
                     onPointerEnter={()=>setHoverImg(item.url)} className={styles.image_slide}/>
                 </PhotoView>
                 )}
