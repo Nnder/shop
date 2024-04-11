@@ -32,7 +32,7 @@ export default function Navbar() {
                 <Image width={60} height={60} src={'/faviconStroke.svg'} alt="Meat"/>
             </Link>
 
-            <ButtonLink href={'/'} sx={{fontSize:["0.8rem", "0.8rem","0.875rem"]}}>Главная</ButtonLink>
+            {/* <ButtonLink href={'/'} sx={{fontSize:["0.8rem", "0.8rem","0.875rem"]}}>Главная</ButtonLink> */}
             <ButtonLink href={'/products'}>Продукция</ButtonLink>
             <ButtonLink href={'/about'}>О нас</ButtonLink>
             <ButtonLink href={'/contacts'}>Контакты</ButtonLink>
