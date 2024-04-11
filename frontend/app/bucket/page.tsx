@@ -1,4 +1,5 @@
 'use client'
+import BucketList from "@/src/3_widget/BucketList/BucketList";
 import BucketItem from "@/src/4_features/BucketItem/BucketItem";
 import { useBidStore } from "@/src/5_entities/bid/bid";
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
@@ -16,11 +17,7 @@ export default function Bucket() {
                 Корзина
             </Typography>
 
-            <Box>
-                {products.length ? products.map((product)=>(
-                <BucketItem key={product.id} product={product}/>)) 
-                : <Typography>Тут пусто</Typography>}
-            </Box>
+            <BucketList products={products}/>
 
             {/* <Box>
                 <Typography textAlign={'center'} variant="h4">
