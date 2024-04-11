@@ -15,7 +15,7 @@ interface PreviousBids {
     createdAt: Date
 }
 
-interface Bid{
+export interface Bid{
     count: number
     products: Product[]
     sum: number

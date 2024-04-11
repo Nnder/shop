@@ -57,6 +57,8 @@ export const authConfig: AuthOptions = {
                         'Content-Type': 'application/json'
                 })
 
+                    
+
                     return {
                         id: data.user.id.toString(),
                         email: data.user.email,

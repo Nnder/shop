@@ -1,5 +1,6 @@
 "use client"
 import BucketItem from '@/src/4_features/BucketItem/BucketItem'
+import FormBid from '@/src/4_features/Forms/Bid/FormBid'
 import { useBidStore } from '@/src/5_entities/bid/bid'
 import { Product } from '@/src/5_entities/product/product.types'
 import Button from '@/src/6_shared/ui/Buttons/Button'
@@ -10,7 +11,6 @@ export default function BucketList({products, ...props}: PropsWithChildren<{prod
 
     const {sum} = useBidStore()
 
-    console.log(sum)
   return (
     <>
         <Box>
@@ -23,8 +23,10 @@ export default function BucketList({products, ...props}: PropsWithChildren<{prod
             <Typography sx={{fontSize: 25}}>
                 Итого {sum} руб.
             </Typography>
-            <Button sx={{width: {xs: 1, sm: 'inherit'}}}>Создать заявку</Button>
+            <FormBid/>
         </Box>
+        
+        
     </>
   )
 }

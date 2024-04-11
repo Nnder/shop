@@ -53,6 +53,10 @@ class FetchClient {
         return `${this.BACK_URL}${path}`;
     }
 
+    getBackendUrl(){
+        return `${this.BACK_URL}`;
+    }
+
     private async fetch<T>(
         path: string,
         method: string,
