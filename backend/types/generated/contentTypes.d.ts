@@ -381,9 +381,9 @@ export interface ApiBidBid extends Schema.CollectionType {
       'oneToMany',
       'api::product.product'
     >;
-    FIO: Attribute.String;
+    fio: Attribute.String;
     phone: Attribute.String;
-    Message: Attribute.RichText;
+    message: Attribute.RichText;
     users_permissions_user: Attribute.Relation<
       'api::bid.bid',
       'manyToOne',

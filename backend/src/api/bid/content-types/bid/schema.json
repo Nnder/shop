@@ -26,13 +26,13 @@
       "relation": "oneToMany",
       "target": "api::product.product"
     },
-    "FIO": {
+    "fio": {
       "type": "string"
     },
     "phone": {
       "type": "string"
     },
-    "Message": {
+    "message": {
       "type": "richtext"
     },
     "users_permissions_user": {
