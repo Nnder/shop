@@ -463,7 +463,13 @@ export interface ApiProductProduct extends Schema.CollectionType {
         i18n: {
           localized: true;
         };
-      }>;
+      }> &
+      Attribute.SetMinMax<
+        {
+          min: '0';
+        },
+        string
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

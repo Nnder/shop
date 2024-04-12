@@ -83,7 +83,8 @@
           "localized": true
         }
       },
-      "type": "biginteger"
+      "type": "biginteger",
+      "min": "0"
     }
   }
 }
