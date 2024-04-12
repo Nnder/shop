@@ -45,11 +45,11 @@ export default function NavbarMobileMenu() {
               }}
             >
             
-                {/* <Link href={'/'} style={{textDecoration: 'none'}}>
+                <Link href={'/'} style={{textDecoration: 'none'}}>
                     <MenuItem onClick={handleCloseNavMenu}>
                         <Typography textAlign="left" sx={{color: '#201E1F', fontSize:{xs:'18px',sm:'20px'}, width: '200px'}}>Главная</Typography>
                     </MenuItem>
-                </Link> */}
+                </Link>
 
                 <Link href={'/products'} style={{textDecoration: 'none'}}>
                     <MenuItem onClick={handleCloseNavMenu}>

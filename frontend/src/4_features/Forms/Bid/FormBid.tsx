@@ -1,41 +1,28 @@
 "use client"
 import { Bid, useBidStore } from "@/src/5_entities/bid/bid";
-import { user } from "@/src/5_entities/user/user.types";
 import { restClient } from "@/src/6_shared/api/api.fetch";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
 import { FormTextarea } from "@/src/6_shared/ui/Textarea/Textarea";
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function FormBid() {
-    const router = useRouter()
+    const {data} = useSession()
+    const {clear, products, productCount} = useBidStore()
     const [open, setOpen] = useState(false);
-    const {clear} = useBidStore()
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    
+    const handleClickOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
 
     const {register, handleSubmit, } = useForm<Bid>({
         mode: 'onChange'
     })
 
-
-
-    const {data} = useSession()
-    const {products, productCount} = useBidStore()
-
-    
     const onSubmit:SubmitHandler<Bid> = async (userData)=>{
-
         const bid= {
             status: "new",
             products: [...products.map((el)=>el.id)],
@@ -43,15 +30,14 @@ export default function FormBid() {
             counts: JSON.stringify([...productCount])
         }
            
-        const res = await restClient.post(`/bids`, {data:{...bid, ...userData}}, false, {})
+        const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data:{...bid, ...userData}}, false, {})
 
-        
-
-        // if (res?.error) {
-        //     console.log(res.status);
-        // }
-
-
+        if (createdBid?.data?.id) {
+            toast("Заявка создана")
+            clear()
+        } else {
+            toast("Ошибка при создании заявки")
+        }
     }
     
   return (

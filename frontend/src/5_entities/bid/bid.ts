@@ -9,13 +9,14 @@ interface ProductCount {
 
 interface PreviousBids {
     status: string
-    product: Product[]
+    products: Product[]
     counts: ProductCount[]
     sum: number
     createdAt: Date
 }
 
 export interface Bid{
+    id?: number
     count: number
     products: Product[]
     sum: number
@@ -24,6 +25,11 @@ export interface Bid{
     message: string
     productCount: ProductCount[]
     previousBids: PreviousBids[]
+    createdAt?: Date
+    updatedAt?: Date
+}
+
+interface StoreBid extends Bid{
     addProductCount: (product: Product)=>void
     removeProductCount: (product: Product)=>void
     getProductCount: (product: Product)=> number | null
@@ -34,7 +40,7 @@ export interface Bid{
     setPreviousBids: (bid: PreviousBids[])=>void
 }
 
-export const useBidStore = create<Bid>((set,get) => ({
+export const useBidStore = create<StoreBid>((set,get) => ({
     count: 0,
     products: [],
     sum: 0,
@@ -75,10 +81,6 @@ export const useBidStore = create<Bid>((set,get) => ({
         return null
     },
 
-
-    
-
-
     addProduct: (product: Product) => set(produce((state) => { 
         ++state.count,
         state.products.push(product),
@@ -110,5 +112,17 @@ export const useBidStore = create<Bid>((set,get) => ({
 
         return isExist;
     },
-    clear: () => set({}, true),
+    clear: () => set(produce((state)=>{
+        state.previousBids.push({
+            status: 'new',
+            products: [...state.products],
+            counts: [...state.productCount],
+            sum: state.sum,
+            createdAt: new Date()
+        })
+        state.count = 0,
+        state.sum = 0,
+        state.products = [],
+        state.productCount = []
+    })),
 }))
