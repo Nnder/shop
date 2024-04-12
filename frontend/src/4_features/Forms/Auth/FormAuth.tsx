@@ -14,7 +14,7 @@ export default function FormAuth() {
         mode: 'onChange'
     })
 
-    const {data} = useSession()
+    
     const onSubmit:SubmitHandler<user> = async (data)=>{
 
         const response = await signIn(

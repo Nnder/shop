@@ -23,3 +23,7 @@ export function GetProduct(id: number){
         enabled: true
       })
 }
+
+export async function UpdateProduct(product: Product, newProduct: Partial<Product>){
+    return await restClient.put<Product>(`/products/${product.id}`, false, {data:{...newProduct}})
+}

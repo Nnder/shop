@@ -17,7 +17,7 @@
     overflow: hidden;
     flex-wrap: wrap;
     height: 100px;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 

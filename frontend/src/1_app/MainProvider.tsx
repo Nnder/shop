@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from "react-hot-toast";
+import Cache from "./Cache";
 
 const theme = createTheme({
     palette: {
@@ -36,6 +37,7 @@ export default function MainProvider({children}: PropsWithChildren) {
     <>
     <Toaster/>
     <Session>
+      <Cache/>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           {children}

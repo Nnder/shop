@@ -1,5 +1,6 @@
 "use client"
 import { Bid, useBidStore } from "@/src/5_entities/bid/bid";
+import { UpdateProduct } from "@/src/5_entities/product/product";
 import { restClient } from "@/src/6_shared/api/api.fetch";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
@@ -12,7 +13,7 @@ import toast from "react-hot-toast";
 
 export default function FormBid() {
     const {data} = useSession()
-    const {clear, products, productCount} = useBidStore()
+    const {clear, products, productCount, getProductCount} = useBidStore()
     const [open, setOpen] = useState(false);
     
     const handleClickOpen = () => setOpen(true)
@@ -34,7 +35,13 @@ export default function FormBid() {
 
         if (createdBid?.data?.id) {
             toast("Заявка создана")
-            clear()
+
+            products.forEach( async (product)=> {
+                const count = await getProductCount(product) || 0
+                await UpdateProduct(product, {count: product?.count ? product?.count-count : 0})
+            })
+
+            // clear()
         } else {
             toast("Ошибка при создании заявки")
         }

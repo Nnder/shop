@@ -6,7 +6,7 @@ export default function Home() {
 
   const sessin = useSession()
   const user = sessin.data?.user;
-
+  
   return (
    <Container>
     <Paper elevation={16}>
