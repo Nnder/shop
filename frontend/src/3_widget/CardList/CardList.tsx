@@ -7,11 +7,13 @@ import Find from "@/src/4_features/Find/Find";
 import { ChangeEvent, useState } from "react";
 import { GetProducts } from "@/src/5_entities/product/product";
 import { useDebounce } from "@/src/6_shared/hooks/useDebounce";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CardList() {
+    const queryClient = useQueryClient()
     const [find, setFind] = useState("");
     const debouncedFind = useDebounce<string>(find, 1000);
-    const {data, isLoading, isFetching} = GetProducts(debouncedFind)
+    let {data, isLoading, isFetching, } = GetProducts(debouncedFind)
 
     const ChangeHandler = (e: ChangeEvent<HTMLInputElement>)=>{
         const value = e.target.value
@@ -35,7 +37,7 @@ export default function CardList() {
             width: 1,
         }}>
 
-            {isFetching || isLoading ? <Loader/> :
+            {isLoading ? <Loader/> :
                 data?.data.length ? 
                 data?.data.map((product: Product)=>( 
                     <ProductCard key={product.id} product={product}/>

@@ -1,7 +1,7 @@
 import CardList from "@/src/3_widget/CardList/CardList";
 import {Box, Container, Paper} from "@mui/material";
 
-export default function About() {
+export default function Products() {
 
   return (
    <Container>

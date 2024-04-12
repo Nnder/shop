@@ -9,7 +9,10 @@ export function GetProducts(find = ""){
             `/products?populate=*&filters[title][$contains]=${find}`, false, {
                 'Content-Type': 'application/json'
             }),
-        enabled: true
+        enabled: true,
+        staleTime: 50000,
+        refetchInterval: 60000,
+        gcTime: 50000,
       })
 }
 
@@ -20,10 +23,13 @@ export function GetProduct(id: number){
             `/products/${id}?populate=*`, false, {
                 'Content-Type': 'application/json'
             }),
-        enabled: true
+        enabled: true,
+        staleTime: 800000,
+        refetchInterval: 900000,
+        gcTime: 100000,
       })
 }
 
 export async function UpdateProduct(product: Product, newProduct: Partial<Product>){
-    return await restClient.put<Product>(`/products/${product.id}`, false, {data:{...newProduct}})
+    return await restClient.put<Product>(`/products/${product.id}`, true, {data:{...newProduct}})
 }

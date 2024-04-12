@@ -30,19 +30,21 @@ export default function FormBid() {
             users_permissions_user: data?.user?.email,
             counts: JSON.stringify([...productCount])
         }
-           
-        const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data:{...bid, ...userData}}, false, {})
 
-        if (createdBid?.data?.id) {
-            toast("Заявка создана")
+        try {
+            const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data:{...bid, ...userData}}, true, {})
 
-            products.forEach( async (product)=> {
-                const count = await getProductCount(product) || 0
-                await UpdateProduct(product, {count: product?.count ? product?.count-count : 0})
-            })
+            if (createdBid?.data?.id) {
+                toast("Заявка создана")
 
-            // clear()
-        } else {
+                products.forEach( async (product)=> {
+                    const count = await getProductCount(product) || 0
+                    await UpdateProduct(product, {count: product?.count ? product?.count-count : 0})
+                })
+
+                clear()
+            } 
+        } catch(e){
             toast("Ошибка при создании заявки")
         }
     }

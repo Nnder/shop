@@ -3,7 +3,7 @@ import { user } from "@/src/5_entities/user/user.types";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
 import { Box } from "@mui/material";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {SubmitHandler, useForm} from 'react-hook-form';
 

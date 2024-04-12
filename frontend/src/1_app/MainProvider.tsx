@@ -3,10 +3,10 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { PropsWithChildren } from "react";
 import Session from "./Session";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from "react-hot-toast";
 import Cache from "./Cache";
+
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const theme = createTheme({
     palette: {
@@ -37,8 +37,8 @@ export default function MainProvider({children}: PropsWithChildren) {
     <>
     <Toaster/>
     <Session>
-      <Cache/>
       <QueryClientProvider client={queryClient}>
+        <Cache/>
         <ThemeProvider theme={theme}>
           {children}
         </ThemeProvider>

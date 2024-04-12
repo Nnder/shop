@@ -17,7 +17,7 @@ export default function ProductElement({ params }: { params: { id: number } }) {
         alignItems: 'center',
         justifyContent: 'center',
     }}> 
-        {isLoading || isFetching ? <Loader/> : data?.data.title ? <ProductInfo data={data.data}/> : "Ничего не найдено"}
+        {isLoading ? <Loader/> : data?.data.title ? <ProductInfo data={data.data}/> : "Ничего не найдено"}
       </Box>
     </Paper>
    </Container>
