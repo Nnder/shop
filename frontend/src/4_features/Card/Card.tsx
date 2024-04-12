@@ -5,6 +5,7 @@ import { useBucket } from '@/src/6_shared/hooks/useBucket';
 import {Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button} from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren} from 'react';
+import toast from 'react-hot-toast';
 
 export default function ProductCard({product, ...props}: PropsWithChildren<{product: Product}> ) {
     const router = useRouter()
@@ -68,7 +69,16 @@ export default function ProductCard({product, ...props}: PropsWithChildren<{prod
                 
             </CardContent>
             <CardActions>
-                <Button sx={{width: "100%"}} size="large" onClick={()=>handleClick()}>{inBucket ? "Убрать из корзины" : "Добавить в корзину"}</Button>
+                <Button sx={{width: "100%"}} size="large" onClick={()=> { 
+                    if(product?.count && product.count > 0 )
+                        handleClick()
+                    else
+                        toast('Этот товар закончился')
+                }}>{
+                product?.count && product.count > 0 ?
+                    (inBucket ? "Убрать из корзины" : "Добавить в корзину") : "Товар закончился"
+                }
+                </Button>
             </CardActions>
         </Card>
   );

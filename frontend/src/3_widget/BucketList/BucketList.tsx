@@ -15,7 +15,7 @@ export default function BucketList({products, ...props}: PropsWithChildren<{prod
         <Box>
             {products.length ? products.map((product)=>(
             <BucketItem key={product.id} product={product}/>)) 
-            : <Typography>Тут пусто</Typography>}
+            : <Typography sx={{my: 4, fontSize: 20}} textAlign={'center'}>Пусто</Typography>}
         </Box>
 
         <Box sx={{marginTop: 2, display: 'flex', justifyContent:{xs:'center', sm:'space-between'}, flexWrap: 'wrap'}}>

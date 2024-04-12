@@ -13,10 +13,17 @@ import toast from "react-hot-toast";
 
 export default function FormBid() {
     const {data} = useSession()
-    const {clear, products, productCount, getProductCount} = useBidStore()
+    const {count, products, productCount, getProductCount, clear} = useBidStore()
     const [open, setOpen] = useState(false);
     
-    const handleClickOpen = () => setOpen(true)
+    const handleClickOpen = () => {
+        if(count>0)
+            setOpen(true)
+        else {
+            toast('Добавьте товар в корзину')
+        }
+        
+    }
     const handleClose = () => setOpen(false)
 
     const {register, handleSubmit, } = useForm<Bid>({
