@@ -5,6 +5,7 @@ import YandexAuth from "@/src/4_features/YandexAuth/YandexAuth";
 import { Box, Container, Paper, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+
 export default function SignUp() {
     const session = useSession()
     

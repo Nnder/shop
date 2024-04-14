@@ -5,17 +5,27 @@ import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
 import { Box } from "@mui/material";
 import { signIn, useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { checkPassword } from "./checkPassword";
+import { useEffect, useState } from "react";
+import { useDebounce } from "@/src/6_shared/hooks/useDebounce";
 export default function FormRegister() {
-
-    const {register, handleSubmit, } = useForm<user>({
+    const {data} = useSession()
+    const {register, handleSubmit, } = useForm<user & {secondPassword: string}>({
         mode: 'onChange'
     })
 
-    const {data} = useSession()
-    const onSubmit:SubmitHandler<user> = async (data)=>{
+    const [validation, setValidation] = useState({password: "", secondPassword: ""})
 
-        const response = await signIn(
-            'credentials',
+    // const debouncedValidation = useDebounce(validation)
+    // useEffect(()=>{
+    //     checkPassword(debouncedValidation)
+    // }, [debouncedValidation])
+
+    
+
+    const onSubmit:SubmitHandler<user & {secondPassword: string}> = async (data)=>{
+        const response = await signIn('credentials',
             {
                 redirect: false,
                 username: data.email,
@@ -24,9 +34,8 @@ export default function FormRegister() {
             }
         )
 
-        console.log(data)
-
         if (response?.error) {
+            toast('Ошибка при регистрации')
             console.log(response);
         }
     }
@@ -45,11 +54,15 @@ export default function FormRegister() {
             </Box>
 
             <Box sx={{m: 1}}>
-                <FormInput {...register('password', {required: true,})} type='password' placeholder="Пароль"/>
+                <FormInput {...register('password', {required: true,})} 
+                onChange={(e)=>setValidation({password: e.target.value, secondPassword: validation.secondPassword})} 
+                type='password' placeholder="Пароль"/>
             </Box>
 
             <Box sx={{m: 1}}>
-                <FormInput type='password' placeholder="Пароль"/>
+                <FormInput {...register('secondPassword', {required: true,})} 
+                onChange={(e)=>setValidation({password: validation.password, secondPassword: e.target.value})} 
+                type='password' placeholder="Повторите пароль"/>
             </Box>
 
             <Box sx={{
@@ -59,7 +72,20 @@ export default function FormRegister() {
                 flexDirection: 'column',
                 width: '100%',
                 m: 1}}>
-                    <Button type='submit' sx={{width: ['80%']}}>Регистрация</Button>
+                    <Button type='submit' sx={{width: ['80%']}} onClick={(e)=>{
+                        if(!checkPassword(validation))
+                            e.preventDefault()
+                    }}>Регистрация</Button>
+            </Box>
+
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                width: '100%',
+                m: 1}}>
+                    <Button sx={{width: ['80%']}} href={'/signin'}>Вход</Button>
             </Box>
         </form>
     </Box>
