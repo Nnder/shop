@@ -20,7 +20,7 @@ export default function BucketList({products, ...props}: PropsWithChildren<{prod
 
         <Box sx={{marginTop: 2, display: 'flex', justifyContent:{xs:'center', sm:'space-between'}, flexWrap: 'wrap'}}>
             <Typography sx={{fontSize: 25}}>
-                Итого {sum} руб.
+                Итог: {sum} руб.
             </Typography>
             <FormBid/>
         </Box>

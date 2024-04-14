@@ -1,6 +1,7 @@
 "use client"
-import { Bid, useBidStore } from "@/src/5_entities/bid/bid";
-import { UpdateProduct } from "@/src/5_entities/product/product";
+import {useBidStore } from "@/src/5_entities/bid/bid";
+import { Bid } from "@/src/5_entities/bid/bid.types";
+import { GetProduct, UpdateProduct } from "@/src/5_entities/product/product";
 import { restClient } from "@/src/6_shared/api/api.fetch";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
@@ -13,7 +14,7 @@ import toast from "react-hot-toast";
 
 export default function FormBid() {
     const {data} = useSession()
-    const {count, products, productCount, getProductCount, clear} = useBidStore()
+    const {count, products, productCount, getProductCount, clear, checkProductCount} = useBidStore()
     const [open, setOpen] = useState(false);
     
     const handleClickOpen = () => {
@@ -38,17 +39,30 @@ export default function FormBid() {
             counts: JSON.stringify([...productCount])
         }
 
+        
+
         try {
+            products.forEach( async (product)=> {
+                const count = await getProductCount(product) || 0
+
+                const NotEnough = await checkProductCount()
+                if(NotEnough.length){
+                    NotEnough.forEach((product)=>{
+                        toast(`Количество товара: ${product.title} недостаточно. Всего ${product.count} товара`)
+                    })
+                    
+                    throw new Error("Количество товара недостаточно")
+                } else {
+                    await UpdateProduct(product, {count: product?.count ? product?.count-count : 0})
+                }
+                
+            })
+
             const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data:{...bid, ...userData}}, true, {})
 
             if (createdBid?.data?.id) {
+                console.log(createdBid)
                 toast("Заявка создана")
-
-                products.forEach( async (product)=> {
-                    const count = await getProductCount(product) || 0
-                    await UpdateProduct(product, {count: product?.count ? product?.count-count : 0})
-                })
-
                 clear()
             } 
         } catch(e){

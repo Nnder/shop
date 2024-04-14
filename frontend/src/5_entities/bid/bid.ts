@@ -1,44 +1,8 @@
 import { create } from 'zustand'
 import { Product } from '../product/product.types'
 import { produce } from 'immer'
-
-interface ProductCount {
-    id: number
-    count: number | null
-}
-
-interface PreviousBids {
-    status: string
-    products: Product[]
-    counts: ProductCount[]
-    sum: number
-    createdAt: Date
-}
-
-export interface Bid{
-    id?: number
-    count: number
-    products: Product[]
-    sum: number
-    fio: string
-    phone: string
-    message: string
-    productCount: ProductCount[]
-    previousBids: PreviousBids[]
-    createdAt?: Date
-    updatedAt?: Date
-}
-
-interface StoreBid extends Bid{
-    addProductCount: (product: Product)=>void
-    removeProductCount: (product: Product)=>void
-    getProductCount: (product: Product)=> number | null
-    addProduct: (product: Product)=>void
-    removeProduct: (product: Product)=>void
-    existInBid: (product: Product)=>any
-    clear: ()=>void
-    setPreviousBids: (bid: PreviousBids[])=>void
-}
+import { PreviousBids, ProductCount, StoreBid } from './bid.types'
+import { restClient } from '@/src/6_shared/api/api.fetch'
 
 export const useBidStore = create<StoreBid>((set,get) => ({
     count: 0,
@@ -58,26 +22,22 @@ export const useBidStore = create<StoreBid>((set,get) => ({
         productEl.id === product.id && product.count ? ++state.productCount[i].count  : product.count)
         state.sum += product.price ? product.price : 0
     })),
+
     removeProductCount: (product: Product) => {
         return set(produce((state) => {
             state.productCount.map((productEl: ProductCount, i: number)=> 
             productEl.id === product.id && product.count ? --state.productCount[i].count  : product.count),
             state.sum -= product.price ? product.price: 0
-        }))
-
-    },
-
+        }
+    ))},
 
     getProductCount: (product: Product) => {
         const productCount = get().productCount
-
         for(let el in productCount){
             if(productCount[el].id === product.id){
                 return productCount[el].count
-                break;
             }
         }
-
         return null
     },
 
@@ -97,11 +57,18 @@ export const useBidStore = create<StoreBid>((set,get) => ({
             state.sum -= product.price ? product.price*count : 0
         }))
     },
-
+    getProductIndex: (product: Product) => {
+        const {existInBid, products} = get()
+        for(let el in products ){
+            if(products[el].id === product.id){
+                return el
+            }
+        }
+        return -1;
+    },
 
     existInBid: (product: Product) => {
         const products = get().products
-
         let isExist = false;
         for(let el in products ){
             if(products[el].id === product.id){
@@ -109,9 +76,34 @@ export const useBidStore = create<StoreBid>((set,get) => ({
                 break;
             }
         }
-
         return isExist;
     },
+    checkProductCount: async ()=> {
+        const {productCount, getProductIndex, products} = get()
+        const newProducts: Product[] = []
+        const NotEnough: ProductCount[] = []
+        productCount.map( async (product)=>{
+            const currentProduct = await restClient.get<{data: Product}>(`/products/${product.id}`, true)
+            if(product.count && currentProduct.data.count && product.count > currentProduct.data.count){
+                const newProduct: ProductCount = {id: product.id, count: 1}
+                const index: number = getProductIndex(product as Product) as number
+                if(index >= 0){
+                    newProducts[index] = {...currentProduct.data}
+                }
+
+                NotEnough.push({...newProduct, title: currentProduct.data.title})
+                return {...newProduct}
+            }
+        })
+
+        set(produce((state)=>{
+            state.productCount = [...productCount]
+            state.product = [...newProducts]
+        }))
+
+        return NotEnough
+    },
+        
     clear: () => set(produce((state)=>{
         state.previousBids.push({
             status: 'new',
