@@ -1,9 +1,9 @@
 'use client'
-import { ChangeEvent, Suspense, useEffect } from 'react';
+import { ChangeEvent, Dispatch, PropsWithChildren, SetStateAction, Suspense, useEffect } from 'react';
 import Find from '../Find/Find'
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-export default function Search(setFind: any) {
+export default function Search({setFind, ...props} : PropsWithChildren< {setFind: (val: any)=>any} >) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
