@@ -9,6 +9,9 @@ const nextConfig = {
         YANDEX_CLIENT_SECRET: process.env.YANDEX_CLIENT_SECRET,
         YANDEX_APIKEY_MAP: process.env.YANDEX_APIKEY_MAP,
     },
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
+    },
 };
 
 
