@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 export default function ProductCard({product, ...props}: PropsWithChildren<{product: Product}> ) {
     const router = useRouter()
     const clickHandler = ()=> router.push(`/products/${product.id}`)
-
     const {inBucket, handleClick} = useBucket(product)
     
     return (
