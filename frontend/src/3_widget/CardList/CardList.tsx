@@ -3,7 +3,7 @@ import ProductCard from "@/src/4_features/Card/Card";
 import { Product } from "@/src/5_entities/product/product.types";
 import Loader from "@/src/6_shared/ui/Loader/Loader";
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { GetProducts } from "@/src/5_entities/product/product";
 import { useDebounce } from "@/src/6_shared/hooks/useDebounce";
 import Search from "@/src/4_features/Search/Search";
@@ -15,7 +15,10 @@ export default function CardList() {
 
   return (
     <>
-        <Search setFind={setFind}/>
+        <Suspense>
+            <Search setFind={setFind}/>
+        </Suspense>
+        
         <Box sx={{
             display: 'flex',
             flexDirection: 'row',
