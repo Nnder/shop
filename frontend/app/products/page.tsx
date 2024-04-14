@@ -1,5 +1,7 @@
 import CardList from "@/src/3_widget/CardList/CardList";
+import Loader from "@/src/6_shared/ui/Loader/Loader";
 import {Box, Container, Paper} from "@mui/material";
+import { Suspense } from "react";
 
 export default function Products() {
 
@@ -12,7 +14,9 @@ export default function Products() {
         alignItems: 'center',
         justifyContent: 'center',
     }}>
+      <Suspense fallback={<Loader/>}>
         <CardList/>
+      </Suspense>
       </Box>
     </Paper>
    </Container>
