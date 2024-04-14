@@ -13,20 +13,22 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function FormBid() {
-    const {data} = useSession()
+    const {data, ...session} = useSession()
     const {count, products, productCount, getProductCount, clear, checkProductCount} = useBidStore()
     const [open, setOpen] = useState(false);
     
     const handleClickOpen = () => {
-        if(count>0)
-            setOpen(true)
+        if(session.status === "unauthenticated")
+            toast("Пользователь не авторизован")
         else {
-            toast('Добавьте товар в корзину')
+            if(count>0)
+                setOpen(true)
+            else
+                toast('Добавьте товар в корзину')
         }
-        
     }
-    const handleClose = () => setOpen(false)
 
+    const handleClose = () => setOpen(false)
     const {register, handleSubmit, } = useForm<Bid>({
         mode: 'onChange'
     })
