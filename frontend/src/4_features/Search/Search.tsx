@@ -24,9 +24,6 @@ export default function Search({setFind, ...props} : PropsWithChildren< {setFind
         replace(`${pathname}?${params.toString()}`);
     }
   return (
-    <Suspense>
         <Find onChange={ChangeHandler}/>
-    </Suspense>
-        
   )
 }
