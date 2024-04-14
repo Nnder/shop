@@ -7,8 +7,7 @@ import { signIn, useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { checkPassword } from "./checkPassword";
-import { useEffect, useState } from "react";
-import { useDebounce } from "@/src/6_shared/hooks/useDebounce";
+import { useState } from "react";
 export default function FormRegister() {
     const {data} = useSession()
     const {register, handleSubmit, } = useForm<user & {secondPassword: string}>({
@@ -21,8 +20,6 @@ export default function FormRegister() {
     // useEffect(()=>{
     //     checkPassword(debouncedValidation)
     // }, [debouncedValidation])
-
-    
 
     const onSubmit:SubmitHandler<user & {secondPassword: string}> = async (data)=>{
         const response = await signIn('credentials',

@@ -1,8 +1,7 @@
 'use client'
 import BucketList from "@/src/3_widget/BucketList/BucketList";
-import BucketItem from "@/src/4_features/BucketItem/BucketItem";
 import { useBidStore } from "@/src/5_entities/bid/bid";
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Box, Container, Paper, Typography } from "@mui/material";
 
 
 export default function Bucket() {
@@ -19,11 +18,11 @@ export default function Bucket() {
 
             <BucketList products={products}/>
 
-            {/* <Box>
+            <Box>
                 <Typography textAlign={'center'} variant="h4">
-                    Прошлые покупки
+                    Прошлые заказы
                 </Typography>
-            </Box> */}
+            </Box>
         </Paper>
     </Container>
   )

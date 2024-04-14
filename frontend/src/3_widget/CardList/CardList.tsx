@@ -1,42 +1,21 @@
-"use client"
+'use client'
 import ProductCard from "@/src/4_features/Card/Card";
 import { Product } from "@/src/5_entities/product/product.types";
 import Loader from "@/src/6_shared/ui/Loader/Loader";
 import { Box } from "@mui/material";
-import Find from "@/src/4_features/Find/Find";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { GetProducts } from "@/src/5_entities/product/product";
 import { useDebounce } from "@/src/6_shared/hooks/useDebounce";
-import { useQueryClient } from "@tanstack/react-query";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import Search from "@/src/4_features/Search/Search";
 
 export default function CardList() {
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const { replace } = useRouter();
-
-    const queryClient = useQueryClient()
-    const [find, setFind] = useState(searchParams.get('search') || "");
+    const [find, setFind] = useState("");
     const debouncedFind = useDebounce<string>(find, 1000);
     let {data, isLoading, isFetching, } = GetProducts(debouncedFind)
-    
-
-    const ChangeHandler = (e: ChangeEvent<HTMLInputElement>)=>{
-        const value = e.target.value
-        const params = new URLSearchParams(searchParams);
-        if(value){
-            setFind(value)
-            params.set('search', value)
-        } else {
-            setFind("")
-            params.delete('search')
-        }
-        replace(`${pathname}?${params.toString()}`);
-    }
 
   return (
     <>
-        <Find onChange={ChangeHandler}/>
+        <Search setFind={setFind}/>
         <Box sx={{
             display: 'flex',
             flexDirection: 'row',
