@@ -1,5 +1,4 @@
-'use client'
-import { ChangeEvent, Dispatch, PropsWithChildren, SetStateAction, Suspense, useEffect } from 'react';
+import { ChangeEvent, PropsWithChildren, Suspense, useEffect } from 'react';
 import Find from '../Find/Find'
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
@@ -28,6 +27,6 @@ export default function Search({setFind, ...props} : PropsWithChildren< {setFind
     <Suspense>
         <Find onChange={ChangeHandler}/>
     </Suspense>
-    
+        
   )
 }

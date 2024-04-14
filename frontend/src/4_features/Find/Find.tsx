@@ -9,7 +9,7 @@ export default function Find({sx, icon = <Search/>, label = "", onChange, ...pro
         <Input 
         icon={icon} label={label} 
         sx={{width: ["75vw", "400px", "500px", "600px"], ...sx}} 
-        onChange={onChange}/>
+        onChange={onChange} />
     </Paper>
   )
 }

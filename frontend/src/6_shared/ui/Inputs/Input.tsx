@@ -1,7 +1,6 @@
 "use client"
 import { FilledInput, FormControl, FormControlProps, IconButton, InputAdornment, InputLabel} from "@mui/material";
 import { IInput } from "./types.Input";
-import { ChangeEvent } from "react";
 
 export default function Input({sx, icon, label = "", ...props}: IInput) {
   return (

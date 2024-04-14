@@ -78,7 +78,6 @@ export const authConfig: AuthOptions = {
         },
         session({ session, token, user }: any) {
             session.user = token
-            console.log(session)
             return session
         },
     },
