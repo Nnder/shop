@@ -43,6 +43,11 @@
     },
     "counts": {
       "type": "json"
+    },
+    "sum": {
+      "type": "decimal",
+      "default": 0,
+      "min": 0
     }
   }
 }

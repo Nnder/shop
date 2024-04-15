@@ -390,6 +390,14 @@ export interface ApiBidBid extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     counts: Attribute.JSON;
+    sum: Attribute.Decimal &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::bid.bid', 'oneToOne', 'admin::user'> &
