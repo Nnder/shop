@@ -14,8 +14,9 @@ import toast from "react-hot-toast";
 
 export default function FormBid() {
     const {data, ...session} = useSession()
-    const {count, products, productCount, getProductCount, clear, checkProductCount} = useBidStore()
+    const {count, sum, products, productCount, getProductCount, clear, checkProductCount} = useBidStore()
     const [open, setOpen] = useState(false);
+    
     
     const handleClickOpen = () => {
         if(session.status === "unauthenticated")
@@ -33,12 +34,14 @@ export default function FormBid() {
         mode: 'onChange'
     })
 
+    // users_permissions_user: [data?.user?.id],
+
     const onSubmit:SubmitHandler<Bid> = async (userData)=>{
         const bid= {
             status: "new",
             products: [...products.map((el)=>el.id)],
-            users_permissions_user: data?.user?.email,
-            counts: JSON.stringify([...productCount])
+            counts: JSON.stringify([...productCount]),
+            sum: sum
         }
 
         
@@ -46,7 +49,6 @@ export default function FormBid() {
         try {
             products.forEach( async (product)=> {
                 const count = await getProductCount(product) || 0
-
                 const NotEnough = await checkProductCount()
                 if(NotEnough.length){
                     NotEnough.forEach((product)=>{
@@ -63,7 +65,13 @@ export default function FormBid() {
             const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data:{...bid, ...userData}}, true, {})
 
             if (createdBid?.data?.id) {
-                console.log(createdBid)
+                // @ts-ignore
+                const updatedUser  = await restClient.put(`/users/${data?.user?.id}`, { data: { 
+                    // Добавление созданной заявки к списку bids пользователя
+                    // @ts-ignore
+                    bids: [...(data?.user?.bids || []), createdBid.data.id] 
+                } }, true, {})
+                console.log(updatedUser)
                 toast("Заявка создана")
                 clear()
             } 

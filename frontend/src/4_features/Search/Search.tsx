@@ -1,4 +1,4 @@
-import { ChangeEvent, PropsWithChildren, Suspense, useEffect } from 'react';
+import { ChangeEvent, PropsWithChildren, useEffect } from 'react';
 import Find from '../Find/Find'
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
@@ -24,6 +24,6 @@ export default function Search({setFind, ...props} : PropsWithChildren< {setFind
         replace(`${pathname}?${params.toString()}`);
     }
   return (
-        <Find onChange={ChangeHandler}/>
+        <Find onChange={ChangeHandler} />
   )
 }

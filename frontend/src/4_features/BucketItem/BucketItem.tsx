@@ -8,9 +8,7 @@ import { PropsWithChildren, useState } from "react";
 export default function BucketItem({product ,...props}: PropsWithChildren<{product: Product}>) {
     const {removeProduct, productCount, addProductCount, removeProductCount, getProductCount} = useBidStore()
     const [count, setCount] = useState(product.count ? getProductCount(product) : null)
-
-    console.log(count)
-
+    
     function increase(count: number){
         if(product?.count && count < product.count){
             setCount(++count)

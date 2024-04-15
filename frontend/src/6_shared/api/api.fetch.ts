@@ -25,8 +25,8 @@ class FetchClient {
 
     async put<T>(
         path: string,
-        isAuth: boolean = false,
         body?: Record<string, any>,
+        isAuth: boolean = false,
         headers?: Record<string, string>
     ):Promise<T>{
         return this.fetch<T>(path, 'PUT', isAuth, body , headers)

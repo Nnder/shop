@@ -31,5 +31,5 @@ export function GetProduct(id: number){
 }
 
 export async function UpdateProduct(product: Product, newProduct: Partial<Product>){
-    return await restClient.put<Product>(`/products/${product.id}`, true, {data:{...newProduct}})
+    return await restClient.put<Product>(`/products/${product.id}`, {data:{...newProduct}}, true)
 }
