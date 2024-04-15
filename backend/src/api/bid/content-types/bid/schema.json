@@ -15,11 +15,11 @@
     "status": {
       "type": "enumeration",
       "enum": [
-        "payed",
-        "new",
-        "completed"
+        "Оплачено",
+        "Новая",
+        "Закрыта"
       ],
-      "default": "new"
+      "default": "Новая"
     },
     "products": {
       "type": "relation",
@@ -35,12 +35,6 @@
     "message": {
       "type": "richtext"
     },
-    "users_permissions_user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "bids"
-    },
     "counts": {
       "type": "json"
     },
@@ -48,6 +42,9 @@
       "type": "decimal",
       "default": 0,
       "min": 0
+    },
+    "users_permissions_user": {
+      "type": "string"
     }
   }
 }

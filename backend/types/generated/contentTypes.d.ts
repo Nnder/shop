@@ -374,8 +374,14 @@ export interface ApiBidBid extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    status: Attribute.Enumeration<['payed', 'new', 'completed']> &
-      Attribute.DefaultTo<'new'>;
+    status: Attribute.Enumeration<
+      [
+        '\u041E\u043F\u043B\u0430\u0447\u0435\u043D\u043E',
+        '\u041D\u043E\u0432\u0430\u044F',
+        '\u0417\u0430\u043A\u0440\u044B\u0442\u0430'
+      ]
+    > &
+      Attribute.DefaultTo<'\u041D\u043E\u0432\u0430\u044F'>;
     products: Attribute.Relation<
       'api::bid.bid',
       'oneToMany',
@@ -384,11 +390,6 @@ export interface ApiBidBid extends Schema.CollectionType {
     fio: Attribute.String;
     phone: Attribute.String;
     message: Attribute.RichText;
-    users_permissions_user: Attribute.Relation<
-      'api::bid.bid',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     counts: Attribute.JSON;
     sum: Attribute.Decimal &
       Attribute.SetMinMax<
@@ -398,6 +399,7 @@ export interface ApiBidBid extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<0>;
+    users_permissions_user: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::bid.bid', 'oneToOne', 'admin::user'> &
@@ -909,11 +911,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToOne',
       'plugin::users-permissions.role'
-    >;
-    bids: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::bid.bid'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
