@@ -22,13 +22,14 @@ export interface Bid{
     fio: string
     phone: string
     message: string
+    status: string
     productCount: ProductCount[]
     previousBids: PreviousBids[]
     createdAt?: Date
     updatedAt?: Date
 }
 
-export interface StoreBid extends Bid{
+export interface StoreBid extends Omit<Bid, "status">{
     addProductCount: (product: Product)=>void
     removeProductCount: (product: Product)=>void
     getProductCount: (product: Product)=> number | null

@@ -4,7 +4,6 @@ import { produce } from 'immer'
 import { Bid, PreviousBids, ProductCount, StoreBid } from './bid.types'
 import { restClient } from '@/src/6_shared/api/api.fetch'
 import { useQuery } from '@tanstack/react-query'
-import { useSession } from 'next-auth/react'
 
 export const useBidStore = create<StoreBid>((set,get) => ({
     count: 0,
@@ -127,7 +126,7 @@ export function GetBidsByEmail(email: string){
     return useQuery({
         queryKey: ['previousBids', email],
         queryFn: context => restClient.get<{data: Bid[]}>(
-            `/bids?populate[products]=*&filters[users_permissions_user][email][$eq]=${email}`, false, {
+            `/bids?populate[products]=*&filters[users_permissions_user][$eq]=${email}`, false, {
                 'Content-Type': 'application/json'
             }),
         enabled: true,

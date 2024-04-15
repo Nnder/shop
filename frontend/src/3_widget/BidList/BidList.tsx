@@ -6,13 +6,21 @@ import { PropsWithChildren } from "react";
 
 export default function BidList({data, ...props}: PropsWithChildren<{data:any}>) {
   return (
-    <Box>
+    <Box sx={{marginTop: 2}}>
         {data.map((el: Bid, i: number)=><Box key={i}>
             <Box>
 
             </Box>
-            <Typography>Дата: {dayjs(el.createdAt).format('YYYY.MM.DD')}</Typography>
-            <Typography>Итог: {el.sum} руб.</Typography>
+            <Typography>Дата: {dayjs(el.createdAt).format('YYYY.MM.DD')} </Typography>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+                <Typography>
+                    Статус: {el.status}.
+                </Typography>
+                <Typography>
+                    Итог: {el.sum} руб.
+                </Typography>
+            </Box>
+            
             </Box>)}
     </Box>
   )

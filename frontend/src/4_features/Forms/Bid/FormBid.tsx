@@ -1,7 +1,7 @@
 "use client"
 import {useBidStore } from "@/src/5_entities/bid/bid";
 import { Bid } from "@/src/5_entities/bid/bid.types";
-import { GetProduct, UpdateProduct } from "@/src/5_entities/product/product";
+import { UpdateProduct } from "@/src/5_entities/product/product";
 import { restClient } from "@/src/6_shared/api/api.fetch";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
@@ -16,7 +16,6 @@ export default function FormBid() {
     const {data, ...session} = useSession()
     const {count, sum, products, productCount, getProductCount, clear, checkProductCount} = useBidStore()
     const [open, setOpen] = useState(false);
-    
     
     const handleClickOpen = () => {
         if(session.status === "unauthenticated")
@@ -34,17 +33,14 @@ export default function FormBid() {
         mode: 'onChange'
     })
 
-    // users_permissions_user: [data?.user?.id],
-
     const onSubmit:SubmitHandler<Bid> = async (userData)=>{
         const bid= {
             status: "new",
             products: [...products.map((el)=>el.id)],
             counts: JSON.stringify([...productCount]),
-            sum: sum
+            sum: sum,
+            users_permissions_user: data?.user?.email
         }
-
-        
 
         try {
             products.forEach( async (product)=> {
@@ -61,17 +57,9 @@ export default function FormBid() {
                 }
                 
             })
-
-            const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data:{...bid, ...userData}}, true, {})
+            const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data: {...bid, ...userData} }, true)
 
             if (createdBid?.data?.id) {
-                // @ts-ignore
-                const updatedUser  = await restClient.put(`/users/${data?.user?.id}`, { data: { 
-                    // Добавление созданной заявки к списку bids пользователя
-                    // @ts-ignore
-                    bids: [...(data?.user?.bids || []), createdBid.data.id] 
-                } }, true, {})
-                console.log(updatedUser)
                 toast("Заявка создана")
                 clear()
             } 
@@ -103,6 +91,5 @@ export default function FormBid() {
             </form>
         </Dialog>
     </>
-    
   )
 }
