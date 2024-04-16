@@ -31,7 +31,8 @@ const theme = createTheme({
     }
   })
 
-  const queryClient = new QueryClient()
+const queryClient = new QueryClient()
+
 export default function MainProvider({children}: PropsWithChildren) {
   return (
     <>

@@ -7,6 +7,7 @@ import Button from "@/src/6_shared/ui/Buttons/Button";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
 import { FormTextarea } from "@/src/6_shared/ui/Textarea/Textarea";
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -16,6 +17,7 @@ export default function FormBid() {
     const {data, ...session} = useSession()
     const {count, sum, products, productCount, getProductCount, clear, checkProductCount} = useBidStore()
     const [open, setOpen] = useState(false);
+    const queryClient = useQueryClient()
     
     const handleClickOpen = () => {
         if(session.status === "unauthenticated")
@@ -35,7 +37,7 @@ export default function FormBid() {
 
     const onSubmit:SubmitHandler<Bid> = async (userData)=>{
         const bid= {
-            status: "new",
+            status: "Новая",
             products: [...products.map((el)=>el.id)],
             counts: JSON.stringify([...productCount]),
             sum: sum,
@@ -62,6 +64,7 @@ export default function FormBid() {
             if (createdBid?.data?.id) {
                 toast("Заявка создана")
                 clear()
+                await queryClient.refetchQueries()
             } 
         } catch(e){
             toast("Ошибка при создании заявки")

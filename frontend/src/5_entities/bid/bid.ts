@@ -126,7 +126,7 @@ export function GetBidsByEmail(email: string){
     return useQuery({
         queryKey: ['previousBids', email],
         queryFn: context => restClient.get<{data: Bid[]}>(
-            `/bids?populate[products]=*&filters[users_permissions_user][$eq]=${email}`, false, {
+            `/bids?sort=createdAt:desc&populate[products]=*&filters[users_permissions_user][$eq]=${email}`, false, {
                 'Content-Type': 'application/json'
             }),
         enabled: true,
