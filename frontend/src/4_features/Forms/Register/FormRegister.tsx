@@ -33,7 +33,6 @@ export default function FormRegister() {
 
         if (response?.error) {
             toast('Ошибка при регистрации')
-            console.log(response);
         }
     }
 

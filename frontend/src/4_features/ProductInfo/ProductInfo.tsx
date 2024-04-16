@@ -8,7 +8,6 @@ import { useBucket } from "@/src/6_shared/hooks/useBucket";
 import toast from "react-hot-toast";
 
 export default function ProductInfo({data, ...props}: PropsWithChildren<{data: Product}>) {
-    console.log(data.images)
     const {inBucket, handleClick} = useBucket(data)
 
   return (

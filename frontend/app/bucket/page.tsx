@@ -12,7 +12,6 @@ export default function Bucket() {
     const {products, removeProduct} = useBidStore()
     const session = useSession()
     const {isLoading, data} = GetBidsByEmail(session.data?.user?.email || "")
-    console.log(data)
   return (
     <Container sx={{
         pt: 8
