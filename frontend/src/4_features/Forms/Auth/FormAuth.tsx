@@ -40,11 +40,11 @@ export default function FormAuth() {
     }}>
         <form onSubmit={handleSubmit(onSubmit)} style={{display:'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <Box sx={{m: 1}}>
-                <FormInput {...register('email', {required: true,})} type='email' placeholder="Почта"/>
+                <FormInput {...register('email', {required: true,})} type='email' placeholder="Почта" value="test@test.com"/>
             </Box>
 
             <Box sx={{m: 1}}>
-                <FormInput {...register('password', {required: true,})} type='password' placeholder="Пароль"/>
+                <FormInput {...register('password', {required: true,})} type='password' placeholder="Пароль" value="test@test.com"/>
             </Box>
 
             <Box sx={{
