@@ -8,7 +8,8 @@ import { PropsWithChildren } from "react";
 export default function BidList({data, ...props}: PropsWithChildren<{data:any}>) {
   return (
     <Box sx={{marginTop: 2}}>
-        {data.map((el: Bid&{counts: string}, i: number)=>
+        
+        {data?.map((el: Bid&{counts: string}, i: number)=>
                 <Paper key={i} sx={{p: {xs: 0.5, sm:2}, marginBottom: 1}} elevation={16}>
                     <Typography>Дата: {dayjs(el.createdAt).format('YYYY.MM.DD')} </Typography>
                     <Box>
