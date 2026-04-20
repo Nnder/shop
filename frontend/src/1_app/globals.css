@@ -1,0 +1,56 @@
+:root {
+  --primary: #201E1F;
+  --secondary: #FEEFDD;
+  --accent: #FF4000;
+  --accent-hover: #e63900;
+  
+  --bg-main: #ffffff;
+  --bg-cream: #faf9f6;
+  --bg-dark: #201E1F;
+  
+  --text-main: #201E1F;
+  --text-light: #FEEFDD;
+  --text-muted: #666666;
+  
+  --border-color: rgba(32, 30, 31, 0.1);
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 20px;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  
+  --transition: all 0.3s ease;
+  
+  --navbar-height: 80px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* MUI Container Override Sync */
+.MuiContainer-root {
+  padding-top: var(--navbar-height) !important;
+}
