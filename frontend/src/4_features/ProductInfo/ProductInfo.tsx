@@ -13,7 +13,8 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
     const isOutOfStock = !(data?.count && data.count > 0);
 
     return (
-        <Grid container spacing={6}>
+        <>
+            <Grid container spacing={6}>
             <Grid item xs={12} md={6}>
                 <Box sx={{ position: 'relative' }}>
                     <Link href="/products" passHref>
@@ -57,7 +58,7 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
                         {data.title}
                     </Typography>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4, flexWrap: 'wrap' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3, flexWrap: 'wrap' }}>
                         {data.price && (
                             <Typography variant="h4" sx={{ 
                                 fontWeight: 900, 
@@ -76,20 +77,6 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
                             />
                         ) : (
                             <Chip label="Нет в наличии" color="error" />
-                        )}
-                    </Box>
-
-                    <Divider sx={{ mb: 4 }} />
-
-                    <Box sx={{ mb: 4 }}>
-                        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>Описание</Typography>
-                        <Typography variant="body1" sx={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                            {data.description}
-                        </Typography>
-                        {data.text && (
-                            <Typography variant="body1" sx={{ mt: 2, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                                {data.text}
-                            </Typography>
                         )}
                     </Box>
 
@@ -121,5 +108,22 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
                 </Box>
             </Grid>
         </Grid>
+
+        {/* Full-width description section */}
+        <Box sx={{ mt: 6 }}>
+            <Divider sx={{ mb: 4 }} />
+            <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>Описание</Typography>
+                <Typography variant="body1" sx={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
+                    {data.description}
+                </Typography>
+                {data.text && (
+                    <Typography variant="body1" sx={{ mt: 2, color: 'var(--text-muted)', lineHeight: 1.7 }}>
+                        {data.text}
+                    </Typography>
+                )}
+            </Box>
+        </Box>
+        </>
     );
 }
