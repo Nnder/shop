@@ -53,7 +53,7 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
                         fontWeight: 800, 
                         mb: 2, 
                         lineHeight: 1.2,
-                        fontSize: { xs: '1.75rem', md: '3rem' }
+                        fontSize: { xs: '1.75rem', md: '2.5rem' }
                     }}>
                         {data.title}
                     </Typography>
@@ -110,7 +110,7 @@ export default function ProductInfo({data, ...props}: PropsWithChildren<{data: P
         </Grid>
 
         {/* Full-width description section */}
-        <Box sx={{ mt: 6 }}>
+        <Box sx={{ mt: 4 }}>
             <Divider sx={{ mb: 4 }} />
             <Box sx={{ mb: 4 }}>
                 <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>Описание</Typography>
