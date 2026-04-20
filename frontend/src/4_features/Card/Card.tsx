@@ -2,83 +2,144 @@
 import { Product } from '@/src/5_entities/product/product.types';
 import { restClient } from '@/src/6_shared/api/api.fetch';
 import { useBucket } from '@/src/6_shared/hooks/useBucket';
-import {Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button} from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Button, Box, Chip } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { PropsWithChildren} from 'react';
+import { PropsWithChildren } from 'react';
 import toast from 'react-hot-toast';
+import { ShoppingCart, Trash2 } from 'lucide-react';
 
 export default function ProductCard({product, ...props}: PropsWithChildren<{product: Product}> ) {
     const router = useRouter()
     const clickHandler = ()=> router.push(`/products/${product.id}`)
     const {inBucket, handleClick} = useBucket(product)
     
+    const isOutOfStock = !(product?.count && product.count > 0);
+
     return (
-        <Card sx={{ width: ["90%", "45%", "30%", 330 ,330], border: 1, borderColor: '#4664' }} elevation={8}>
-            <CardActionArea onClick={clickHandler} sx={{position: 'relative'}}>
+        <Card sx={{ 
+            width: { xs: "100%", sm: "calc(50% - 16px)", md: "calc(33.333% - 24px)", lg: 320 },
+            display: 'flex',
+            flexDirection: 'column',
+            transition: 'var(--transition)',
+            '&:hover': {
+                transform: 'translateY(-8px)',
+                boxShadow: 'var(--shadow-lg)',
+            },
+            position: 'relative',
+            overflow: 'visible'
+        }}>
+            <CardActionArea onClick={clickHandler} sx={{ borderRadius: '12px 12px 0 0', overflow: 'hidden' }}>
                 <CardMedia
-                    sx={{ height: 140, weight: 140}}
+                    component="img"
+                    sx={{ 
+                        height: 220, 
+                        objectFit: 'cover',
+                        transition: 'transform 0.5s ease',
+                        '&:hover': { transform: 'scale(1.05)' }
+                    }}
                     image={product?.images?.length ?
                         restClient.getMediaUrl(product.images[0].url) : "/img/google.svg"
                     }
-                    title={"text"}
+                    alt={product.title}
                 />
-                { product.price && product.weigth ? 
-                (<Typography sx={{
-                    position: 'absolute', 
-                    bottom:0, 
-                    right:0,
-                    width: 120,
-                    textAlign: 'right',
-                    px:1,
-                    backgroundColor: 'white'
+                {product.price && (
+                    <Box sx={{
+                        position: 'absolute',
+                        top: 16,
+                        right: 16,
+                        bgcolor: 'var(--accent)',
+                        color: 'white',
+                        px: 1.5,
+                        py: 0.5,
+                        borderRadius: '20px',
+                        fontWeight: 700,
+                        fontSize: '0.9rem',
+                        boxShadow: '0 4px 12px rgba(255, 64, 0, 0.3)'
                     }}>
-                        {product.price} руб./{product.weigth} г
-                    </Typography>) : (<div></div>)
-                }
+                        {product.price} ₽ {product.weigth ? `/ ${product.weigth}г` : ''}
+                    </Box>
+                )}
             </CardActionArea>
-            <CardContent sx={{p:0.5}}>
-                <Typography gutterBottom variant="h5" component="div" sx={{
+
+            <CardContent sx={{ flexGrow: 1, p: 2.5 }}>
+                <Typography variant="h6" sx={{
+                    fontWeight: 700,
+                    mb: 1,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "2",
+                    WebkitBoxOrient: "vertical",
+                    minHeight: '3.2rem',
+                    lineHeight: 1.2
+                }}>
+                    {product.title}
+                </Typography>
+                
+                <Typography variant="body2" sx={{
+                    color: 'var(--text-muted)',
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     display: "-webkit-box",
                     WebkitLineClamp: "3",
                     WebkitBoxOrient: "vertical",
-                    fontSize: [20,18,20,22],
-                    p:[0.5,1],
-                    height: [50,60,70,75],
-                    }}>
-                {product.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitLineClamp: "4",
-                    WebkitBoxOrient: "vertical",
-                    fontSize: [14,14,14,18],
-                    p:[0.5,1],
-                    height: [75,70,70,90]
+                    minHeight: '3rem',
+                    mb: 2,
+                    lineHeight: 1.5
                 }}>
-                {product.description}
+                    {product.description}
                 </Typography>
-                {product.count ?
-                    <Typography sx={{p:[0.5,1], fontSize: [14,16]}}>В наличии {product.count} шт</Typography> :
-                    <Typography sx={{p:["15px", "20px"]}}></Typography>
-                }
-                
+
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 'auto' }}>
+                    {product.count ? (
+                        <Chip 
+                            label={`В наличии: ${product.count} шт`} 
+                            size="small" 
+                            variant="outlined" 
+                            sx={{ borderColor: 'var(--border-color)', color: 'var(--text-muted)', fontSize: '0.75rem' }} 
+                        />
+                    ) : (
+                        <Chip 
+                            label="Закончился" 
+                            size="small" 
+                            color="error" 
+                            variant="outlined" 
+                            sx={{ fontSize: '0.75rem' }} 
+                        />
+                    )}
+                </Box>
             </CardContent>
-            <CardActions>
-                <Button sx={{width: "100%"}} size="large" onClick={()=> { 
-                    if(product?.count && product.count > 0 )
-                        handleClick()
-                    else
-                        toast('Этот товар закончился')
-                }}>{
-                product?.count && product.count > 0 ?
-                    (inBucket ? "Убрать из корзины" : "Добавить в корзину") : "Товар закончился"
-                }
+
+            <Box sx={{ p: 2, pt: 0 }}>
+                <Button 
+                    fullWidth 
+                    variant={inBucket ? "outlined" : "contained"}
+                    color={inBucket ? "error" : "primary"}
+                    size="large"
+                    disabled={isOutOfStock && !inBucket}
+                    startIcon={inBucket ? <Trash2 size={18} /> : <ShoppingCart size={18} />}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (!isOutOfStock || inBucket) {
+                            handleClick();
+                        } else {
+                            toast('Этот товар закончился');
+                        }
+                    }}
+                    sx={{
+                        py: 1.2,
+                        bgcolor: inBucket ? 'transparent' : 'var(--primary)',
+                        color: inBucket ? 'var(--accent)' : 'var(--secondary)',
+                        borderColor: inBucket ? 'var(--accent)' : 'transparent',
+                        '&:hover': {
+                            bgcolor: inBucket ? 'rgba(255, 64, 0, 0.05)' : 'rgba(32, 30, 31, 0.9)',
+                            borderColor: inBucket ? 'var(--accent)' : 'transparent',
+                        }
+                    }}
+                >
+                    {inBucket ? "Убрать" : (isOutOfStock ? "Нет в наличии" : "В корзину")}
                 </Button>
-            </CardActions>
+            </Box>
         </Card>
-  );
+    );
 }

@@ -2,15 +2,31 @@ import * as React from "react"
 import styles from './FormInput.module.css'
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement & HTMLTextAreaElement> {
+    multiline?: boolean;
+    rows?: number;
+  }
 
-const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, placeholder, ...props }, ref) => {
+const FormInput = React.forwardRef<HTMLInputElement & HTMLTextAreaElement, InputProps>(
+  ({ className, type, placeholder, multiline, ...props }, ref) => {
     return (
-        <div>
-            <input type={type} ref={ref} {...props} className={styles.input} placeholder={placeholder}/>
-                <span className={styles.highlight}></span>
-                <span className={styles.bar}></span>
+        <div className={styles.wrapper}>
+            {multiline ? (
+                <textarea 
+                    ref={ref as any} 
+                    {...props as any} 
+                    className={styles.input} 
+                    placeholder={placeholder || " "} 
+                />
+            ) : (
+                <input 
+                    type={type} 
+                    ref={ref as any} 
+                    {...props} 
+                    className={styles.input} 
+                    placeholder={placeholder || " "}
+                />
+            )}
             <label className={styles.label}>{placeholder}</label>
         </div>
     )

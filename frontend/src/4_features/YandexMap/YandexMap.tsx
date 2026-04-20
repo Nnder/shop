@@ -6,7 +6,7 @@ export default function YandexMap({ center = [57.942389, 59.912006], zoom = 10 }
 
   return (
     <YMaps preload={true} query={{apikey: apiKey, lang: 'ru_RU'}} >
-      <Map width={"100%"} defaultState={{
+      <Map width={"100%"} height={"100%"} defaultState={{
       center: [57.942389, 59.912006],
       zoom: 9,
       controls: ['zoomControl', 'fullscreenControl'],

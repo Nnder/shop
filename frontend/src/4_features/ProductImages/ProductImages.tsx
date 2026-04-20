@@ -1,6 +1,7 @@
 "use client"
 import { restClient } from "@/src/6_shared/api/api.fetch";
 import { useState } from "react";
+import Image from "next/image";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import 'react-photo-view/dist/react-photo-view.css';
 import styles from './ProductImages.module.css'
@@ -11,14 +12,29 @@ export default function ProductImages({images}: any) {
     <div>
         <PhotoProvider>
             <PhotoView src={restClient.getMediaUrl(hoverImg)}>
-                <img src={restClient.getMediaUrl(hoverImg)} alt={"main"} width={"100%"} height={"300px"} className={styles.main_image} />
+                <div className={styles.main_image} style={{ position: 'relative', overflow: 'hidden' }}>
+                    <Image 
+                        src={restClient.getMediaUrl(hoverImg)} 
+                        alt={"main"} 
+                        fill 
+                        style={{ objectFit: 'cover' }}
+                        priority
+                    />
+                </div>
             </PhotoView>
 
             <div className={styles.slider_wrapper}>
                 {images.map((item: any, index: number) => 
                 <PhotoView key={index} src={restClient.getMediaUrl(item.url)}>
-                    <img src={restClient.getMediaUrl(item?.formats?.medium ? item.formats.medium.url : item.url)} alt={item.name} width={100} height={100} 
-                    onPointerEnter={()=>setHoverImg(item.url)} className={styles.image_slide}/>
+                    <div style={{ position: 'relative', width: '100px', height: '100px' }} className={styles.image_slide}>
+                        <Image 
+                            src={restClient.getMediaUrl(item?.formats?.medium ? item.formats.medium.url : item.url)} 
+                            alt={item.name} 
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            onPointerEnter={()=>setHoverImg(item.url)}
+                        />
+                    </div>
                 </PhotoView>
                 )}
             </div>

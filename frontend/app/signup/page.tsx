@@ -2,7 +2,7 @@
 import FormRegister from "@/src/4_features/Forms/Register/FormRegister";
 import GoogleAuth from "@/src/4_features/GoogleAuth/GoogleAuth";
 import YandexAuth from "@/src/4_features/YandexAuth/YandexAuth";
-import { Box, Container, Paper, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
@@ -12,26 +12,39 @@ export default function SignUp() {
     if(session.status === "authenticated")
         redirect('/')
 
-  return (
-   <Container>
-        <Paper sx={{p: 8,mx: [0, 3], my: 3}} elevation={8}>
-            <Box sx={{
+    return (
+        <Box sx={{ 
+            minHeight: 'calc(100vh - var(--navbar-height))',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: 'var(--bg-cream)',
+            py: 8
+        }}>
+            <Container maxWidth="sm">
+                <Box sx={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
                     flexDirection: 'column',
+                    alignItems: 'center',
                 }}>
-                <Typography sx={{fontSize: [20, 30]}}>Регистрация</Typography>
-                <FormRegister/>
-                <Typography  sx={{fontSize:['12px', '15px', '18'], textAlign: 'center'}}>
-                    Или войти через
-                    </Typography>
-                <Box sx={{display: 'flex', flexDirection: 'column', height: 100, justifyContent: 'space-evenly'}}>
-                    <YandexAuth/>
-                    <GoogleAuth/>
+                    <FormRegister/>
+                    
+                    <Box sx={{ mt: 4, width: '100%', maxWidth: '400px' }}>
+                        <Typography variant="body2" sx={{ textAlign: 'center', mb: 2, color: 'var(--text-muted)' }}>
+                            Или продолжить через
+                        </Typography>
+                        <Box sx={{ 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            gap: 2,
+                            width: '100%'
+                        }}>
+                            <YandexAuth/>
+                            <GoogleAuth/>
+                        </Box>
+                    </Box>
                 </Box>
-            </Box>
-        </Paper>
-   </Container>
-  );
+            </Container>
+        </Box>
+    );
 }

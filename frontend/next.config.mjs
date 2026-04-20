@@ -9,6 +9,18 @@ const nextConfig = {
         YANDEX_CLIENT_SECRET: process.env.YANDEX_CLIENT_SECRET,
         YANDEX_APIKEY_MAP: process.env.YANDEX_APIKEY_MAP,
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '**',
+            },
+            {
+                protocol: 'http',
+                hostname: '**',
+            },
+        ],
+    },
 };
 
 

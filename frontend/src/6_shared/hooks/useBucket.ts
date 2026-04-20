@@ -11,7 +11,7 @@ export function useBucket(product: Product){
 
     useEffect(()=>{
         setInBucket(existInBid(product))  
-    }, [count])
+    }, [count, existInBid, product])
 
     const handleClick = (): void => {
         if(session.status === "unauthenticated"){

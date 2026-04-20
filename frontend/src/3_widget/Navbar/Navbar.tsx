@@ -15,44 +15,65 @@ export default function Navbar() {
    const {products} = useBidStore()
 
   return (
-   <AppBar sx={{px: [0,0,10]}}>
+   <AppBar position="sticky" sx={{
+        background: 'rgba(32, 30, 31, 0.85)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(254, 239, 221, 0.1)',
+        boxShadow: 'none',
+        borderRadius: '0px',
+        px: [0, 0, 4, 10],
+        height: 'var(--navbar-height)',
+        justifyContent: 'center'
+   }}>
     <Toolbar sx={{
         display: 'flex',
         justifyContent: 'space-between',
+        width: '100%',
+        maxWidth: '1200px',
+        margin: '0 auto',
     }}>
         <NavbarMobileMenu/>
         
         <Box sx={{
             display: {xs: 'none', sm: 'none', md: 'flex' },
-            justifyContent: 'center',
+            gap: 2,
             alignItems: 'center'
             }}>
             <Link href={'/'} passHref 
-                style={{display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '20px'}}>
-                <Image width={60} height={60} src={'/faviconStroke.svg'} alt="Meat"/>
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center', paddingRight: '20px', transition: 'var(--transition)'}}>
+                <Image width={50} height={50} src={'/faviconStroke.svg'} alt="Meat" style={{filter: 'drop-shadow(0 0 8px rgba(255, 64, 0, 0.3))'}}/>
             </Link>
 
-            <ButtonLink href={'/'} sx={{fontSize:["0.8rem", "0.8rem","0.875rem"]}}>Главная</ButtonLink>
-            <ButtonLink href={'/products'}>Продукция</ButtonLink>
-            <ButtonLink href={'/about'}>О нас</ButtonLink>
-            <ButtonLink href={'/contacts'}>Контакты</ButtonLink>
+            <ButtonLink href={'/'} sx={{fontSize: "1rem", fontWeight: 500}}>Главная</ButtonLink>
+            <ButtonLink href={'/products'} sx={{fontSize: "1rem", fontWeight: 500}}>Продукция</ButtonLink>
+            <ButtonLink href={'/about'} sx={{fontSize: "1rem", fontWeight: 500}}>О нас</ButtonLink>
+            <ButtonLink href={'/contacts'} sx={{fontSize: "1rem", fontWeight: 500}}>Контакты</ButtonLink>
         </Box>
 
-        <Box>
-            <ButtonLink sx={{color: (theme: any)=>`${theme.palette.secondary.main}`, position: 'relative', }} href={'/bucket'}>
-                <ShoppingBasket size={35}/>
-                <Typography sx={{position: 'absolute', top:0, right:()=>{
-                    if(products.length>99)
-                        return -5
-                    else if(products.length>9)
-                        return -2
-                    else 
-                        return 0
-                }, textAlign: 'center', width:'30px', color: 'green'}}>
-                    {products.length ? products.length : null}
-                </Typography>
-                
-            </ButtonLink>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Link href="/bucket" style={{ position: 'relative', display: 'flex', alignItems: 'center', padding: '8px' }}>
+                <ShoppingBasket size={28} color="#FEEFDD" />
+                {products.length > 0 && (
+                    <Box sx={{
+                        position: 'absolute',
+                        top: -2,
+                        right: -4,
+                        backgroundColor: 'var(--accent)',
+                        color: 'white',
+                        borderRadius: '50%',
+                        width: '20px',
+                        height: '20px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        border: '2px solid var(--primary)'
+                    }}>
+                        {products.length}
+                    </Box>
+                )}
+            </Link>
             <SignButton/>
         </Box>
     </Toolbar>

@@ -8,15 +8,18 @@ export default function Search({setFind, ...props} : PropsWithChildren< {setFind
     const { replace } = useRouter();
 
     useEffect(()=>{
-        setFind(searchParams.get('search') || "")
-    }, [])
+        const initialValue = searchParams.get('search') || ""
+        setFind(initialValue)
+    }, [searchParams, setFind])
+
+    const value = searchParams.get('search') || ""
 
     const ChangeHandler = (e: ChangeEvent<HTMLInputElement>)=>{
-        const value = e.target.value
+        const newValue = e.target.value
         const params = new URLSearchParams(searchParams);
-        if(value){
-            setFind(value)
-            params.set('search', value)
+        if(newValue){
+            setFind(newValue)
+            params.set('search', newValue)
         } else {
             setFind("")
             params.delete('search')
@@ -24,6 +27,6 @@ export default function Search({setFind, ...props} : PropsWithChildren< {setFind
         replace(`${pathname}?${params.toString()}`);
     }
   return (
-        <Find onChange={ChangeHandler} />
+        <Find onChange={ChangeHandler} value={value} />
   )
 }
