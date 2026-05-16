@@ -8,7 +8,7 @@ export default function Products() {
         <Box sx={{ mb: 6, textAlign: 'center' }}>
           <Typography variant="h2" sx={{ fontWeight: 800, mb: 2 }}>Наша продукция</Typography>
           <Typography variant="h6" sx={{ color: 'var(--text-muted)', fontWeight: 400, maxWidth: '600px', mx: 'auto' }}>
-            Свежее мясо, деликатесы и полуфабрикаты высшего качества с доставкой до вашей двери.
+            Свежее мясо и колбасные изделия собственного производства. Оптовые и розничные поставки по выгодным ценам.
           </Typography>
           <Box sx={{ width: '60px', height: '4px', bgcolor: 'var(--accent)', mx: 'auto', mt: 3 }} />
         </Box>

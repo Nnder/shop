@@ -17,8 +17,8 @@ export default function Footer() {
               <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: 1, color: 'var(--accent)' }}>УПК МЯСО</Typography>
             </Box>
             <Typography variant="body1" sx={{ opacity: 0.7, lineHeight: 1.8, mb: 3 }}>
-              Мы производим и доставляем свежую мясную продукцию премиум-класса с 2005 года. 
-              Традиционные рецепты и строгий контроль качества для вашего стола.
+              Поставщик свежего мяса и производитель колбасных изделий с 2005 года. 
+              Гарантируем стабильные поставки и высокое качество продукции для частных лиц и бизнеса.
             </Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
               {[Facebook, Instagram, Twitter].map((Icon, i) => (

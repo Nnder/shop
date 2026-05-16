@@ -83,7 +83,7 @@ export default function About() {
         <Box sx={{ mb: 10 }}>
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography variant="h3" sx={{ fontWeight: 800, mb: 2 }}>Показатели качества мяса</Typography>
-            <Typography variant="h6" sx={{ color: 'var(--text-muted)', fontWeight: 400 }}>Средние значения на 100г продукции премиум-класса</Typography>
+            <Typography variant="h6" sx={{ color: 'var(--text-muted)', fontWeight: 400 }}>Средние показатели питательной ценности на 100г продукции</Typography>
             <Box sx={{ width: '60px', height: '4px', bgcolor: 'var(--accent)', mx: 'auto', mt: 3 }} />
           </Box>
           <Grid container spacing={3}>
