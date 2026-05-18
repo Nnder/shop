@@ -1,6 +1,8 @@
-import { Box, Container, Typography, Grid, Paper, Divider } from "@mui/material";
-import { CheckCircle2, Award, Zap, HeartPulse, ShieldCheck } from "lucide-react";
+import { Box, Container, Typography, Paper, Grid } from "@mui/material";
+import { Award, Truck, ShieldCheck, Utensils, Zap, HeartPulse } from "lucide-react";
 import ImageViewer from "@/src/4_features/ImageViewer/ImageViewer";
+
+export const dynamic = 'force-static';
 
 export default function About() {
   const nutritionData = [

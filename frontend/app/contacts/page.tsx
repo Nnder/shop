@@ -1,15 +1,55 @@
+"use client"
 import YandexMap from '@/src/4_features/YandexMap/YandexMap'
 import { Box, Container, Paper, Typography, Grid, Button, Divider } from '@mui/material'
 import { BriefcaseBusiness, CalendarDays, Mail, Smartphone, MapPin, Send } from 'lucide-react'
 import { FormInput } from '@/src/6_shared/ui/Inputs/FormInput/FormInput'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+
+export const dynamic = 'force-static';
 
 export default function Contacts() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const contactInfo = [
     { icon: <Smartphone size={24} />, label: "Телефон", value: "+7 (995) 542-40-24", sub: "Звоните нам в рабочее время" },
     { icon: <MapPin size={24} />, label: "Адрес", value: "ул. Краснознаменая 132а", sub: "Нижний Тагил, Свердловская обл." },
     { icon: <CalendarDays size={24} />, label: "График работы", value: "Пн-Сб 9:00 - 22:00", sub: "Воскресенье — выходной" },
     { icon: <Mail size={24} />, label: "Почта", value: "dedkov.roma@gmail.ru", sub: "Для официальных запросов" },
   ];
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    const formData = new FormData(e.currentTarget)
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+    }
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        toast.success('Сообщение отправлено!')
+        e.currentTarget.reset()
+      } else {
+        toast.error('Ошибка при отправке сообщения')
+      }
+    } catch (error) {
+      toast.error('Ошибка при отправке сообщения')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <Box sx={{ bgcolor: 'var(--bg-cream)', minHeight: '100vh', pb: 10 }}>
@@ -35,27 +75,29 @@ export default function Contacts() {
               height: '100%'
             }}>
               <Typography variant="h4" sx={{ fontWeight: 800, mb: 4 }}>Напишите нам</Typography>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
-                    <FormInput placeholder="Ваше имя" required />
+                    <FormInput name="name" placeholder="Ваше имя" required />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <FormInput placeholder="Email" type="email" required />
+                    <FormInput name="email" placeholder="Email" type="email" required />
                   </Grid>
                   <Grid item xs={12}>
-                    <FormInput placeholder="Тема сообщения" />
+                    <FormInput name="subject" placeholder="Тема сообщения" />
                   </Grid>
                   <Grid item xs={12}>
                     <Box sx={{ mt: 2 }}>
-                       <FormInput placeholder="Ваше сообщение" multiline rows={4} />
+                       <FormInput name="message" placeholder="Ваше сообщение" multiline rows={4} required />
                     </Box>
                   </Grid>
                   <Grid item xs={12}>
                     <Button 
+                      type="submit"
                       variant="contained" 
                       size="large" 
                       endIcon={<Send size={20} />}
+                      disabled={isSubmitting}
                       sx={{ 
                         mt: 2, 
                         px: 6, 
@@ -64,7 +106,7 @@ export default function Contacts() {
                         '&:hover': { bgcolor: 'var(--accent-hover)' }
                       }}
                     >
-                      Отправить
+                      {isSubmitting ? 'Отправка...' : 'Отправить'}
                     </Button>
                   </Grid>
                 </Grid>

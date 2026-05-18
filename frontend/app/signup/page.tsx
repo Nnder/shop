@@ -6,6 +6,8 @@ import { Box, Container, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
+export const dynamic = 'force-static';
+
 export default function SignUp() {
     const session = useSession()
     

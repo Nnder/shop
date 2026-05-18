@@ -29,22 +29,22 @@ export default function Bucket() {
                     <BucketList products={products}/>
                 </Paper>
 
-                {session.status === "authenticated" && (
+                {session.status === "authenticated" && data?.data && data.data.length > 0 && (
                     <Box sx={{ mt: 8 }}>
                         <Box sx={{ mb: 4, textAlign: 'center' }}>
                             <Typography variant="h4" sx={{ fontWeight: 800, mb: 1 }}>История заказов</Typography>
                             <Box sx={{ width: '40px', height: '3px', bgcolor: 'var(--accent)', mx: 'auto' }} />
                         </Box>
-                        
-                        <Paper elevation={0} sx={{ 
-                            p: { xs: 2, md: 4 }, 
+
+                        <Paper elevation={0} sx={{
+                            p: { xs: 2, md: 4 },
                             borderRadius: 'var(--border-radius-lg)',
                             border: '1px solid var(--border-color)',
                             boxShadow: 'var(--shadow-sm)'
                         }}>
                             {isLoading ? <Loader/> : <BidList data={data?.data}/>}
                         </Paper>
-                    </Box> 
+                    </Box>
                 )}
             </Container>
         </Box>

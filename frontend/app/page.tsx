@@ -1,6 +1,9 @@
 import { Box, Container, Typography, Grid, Paper, Button } from "@mui/material";
 import { ArrowBigRight, ShieldCheck, Truck, Utensils, Award } from "lucide-react";
 import Link from "next/link";
+import YandexMap from "@/src/4_features/YandexMap/YandexMap";
+
+export const dynamic = 'force-static';
 
 export default function Home() {
   return (
@@ -25,7 +28,7 @@ export default function Home() {
           mb: 2,
           textShadow: '0 4px 12px rgba(0,0,0,0.5)'
         }}>
-          Вкус настоящего мяса
+          Надежный поставщик мяса и колбас
         </Typography>
         <Typography variant="h5" sx={{ 
           fontSize: { xs: '1.1rem', md: '1.5rem' }, 
@@ -34,7 +37,7 @@ export default function Home() {
           opacity: 0.9,
           fontWeight: 400
         }}>
-          Поставка свежего мяса и производство колбасных изделий в Нижнем Тагиле. Гарантия качества каждой партии.
+          Производство и поставка свежего мяса и колбасных изделий в Нижнем Тагиле и по всей Свердловской области. Готовы к долгосрочному сотрудничеству с розничными сетями и общепитом.
         </Typography>
         <Link href="/products" passHref>
           <Button variant="contained" size="large" sx={{ 
@@ -53,10 +56,10 @@ export default function Home() {
       <Container sx={{ mt: -8, position: 'relative', zIndex: 2 }}>
         <Grid container spacing={3}>
           {[
-            { step: '01', title: 'Авторизуйтесь', desc: 'Войдите в личный кабинет для заказа' },
-            { step: '02', title: 'Выберите продукт', desc: 'Широкий ассортимент свежего мяса' },
-            { step: '03', title: 'Создайте заявку', desc: 'Оформите заказ в несколько кликов' },
-            { step: '04', title: 'Обратная связь', desc: 'Мы свяжемся для подтверждения' },
+            { step: '01', title: 'Выберите продукт', desc: 'Широкий ассортимент свежего мяса и колбас' },
+            { step: '02', title: 'Добавьте в корзину', desc: 'Укажите необходимое количество продукции' },
+            { step: '03', title: 'Оформите заказ', desc: 'Укажите контакты для связи и доставки' },
+            { step: '04', title: 'Получите заказ', desc: 'Доставка по Нижнему Тагилу и области' },
           ].map((item, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <Paper sx={{ 
@@ -87,10 +90,10 @@ export default function Home() {
 
         <Grid container spacing={4}>
           {[
-            { icon: <ShieldCheck size={40} />, title: 'Надежный поставщик', desc: 'Обеспечиваем стабильные поставки свежего мяса, строго соблюдая графики и условия хранения.' },
-            { icon: <Truck size={40} />, title: 'Логистика', desc: 'Собственная служба доставки по Нижнему Тагилу и области для оперативного снабжения клиентов.' },
-            { icon: <Utensils size={40} />, title: 'Производство колбас', desc: 'Специализируемся на изготовлении колбасных изделий из проверенного сырья по ГОСТ стандартам.' },
-            { icon: <Award size={40} />, title: 'Сотрудничество', desc: 'Приглашаем к партнерству розничные сети и точки общественного питания на выгодных условиях.' },
+            { icon: <ShieldCheck size={40} />, title: 'Надежный поставщик', desc: 'Стабильные поставки свежего мяса и колбасных изделий по Нижнему Тагилу и всей Свердловской области с 2005 года.' },
+            { icon: <Truck size={40} />, title: 'Собственная логистика', desc: 'Оперативная доставка по графику, соблюдение условий хранения и температурного режима при транспортировке.' },
+            { icon: <Utensils size={40} />, title: 'Собственное производство', desc: 'Изготовление колбасных изделий из проверенного сырья по ГОСТ стандартам. Полный контроль качества на каждом этапе.' },
+            { icon: <Award size={40} />, title: 'B2B партнерство', desc: 'Готовы к долгосрочному сотрудничеству с розничными сетями, ресторанами и точками общепита на выгодных условиях.' },
           ].map((benefit, index) => (
             <Grid item xs={12} md={6} key={index}>
               <Box sx={{ display: 'flex', gap: 3, p: 2 }}>
@@ -103,6 +106,24 @@ export default function Home() {
             </Grid>
           ))}
         </Grid>
+      </Container>
+
+      {/* Map Section */}
+      <Container sx={{ mt: 10 }}>
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, mb: 2 }}>Наше местоположение</Typography>
+          <Box sx={{ width: '60px', height: '4px', bgcolor: 'var(--accent)', mx: 'auto' }} />
+        </Box>
+        <Paper elevation={0} sx={{
+          borderRadius: 'var(--border-radius-lg)',
+          overflow: 'hidden',
+          border: '1px solid var(--border-color)',
+          height: '450px',
+          width: '100%',
+          position: 'relative'
+        }}>
+          <YandexMap />
+        </Paper>
       </Container>
 
       {/* CTA Section */}

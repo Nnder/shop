@@ -1,6 +1,8 @@
 import CardList from "@/src/3_widget/CardList/CardList";
 import { Box, Container, Typography } from "@mui/material";
 
+export const dynamic = 'force-dynamic';
+
 export default function Products() {
   return (
     <Box sx={{ bgcolor: 'var(--bg-cream)', minHeight: 'calc(100vh - var(--navbar-height))', py: 6 }}>

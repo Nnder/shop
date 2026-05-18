@@ -1,5 +1,7 @@
 import { Box, Container, Typography, Paper, Divider } from "@mui/material";
 
+export const dynamic = 'force-static';
+
 export default function PrivacyPolicy() {
   const currentYear = new Date().getFullYear();
 
