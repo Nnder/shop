@@ -5,6 +5,8 @@ import Session from "./Session";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import Cache from "./Cache";
+import { PhotoProvider } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -87,7 +89,9 @@ export default function MainProvider({children}: PropsWithChildren) {
       <QueryClientProvider client={queryClient}>
         <Cache/>
         <ThemeProvider theme={theme}>
-          {children}
+          <PhotoProvider>
+            {children}
+          </PhotoProvider>
         </ThemeProvider>
 
         <ReactQueryDevtools initialIsOpen={false} />

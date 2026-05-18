@@ -14,30 +14,19 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function FormBid() {
-    const {data, ...session} = useSession()
+    const {data: sessionData, status} = useSession()
     const {count, sum, products, productCount, getProductCount, clear, checkProductCount} = useBidStore()
     const [open, setOpen] = useState(false);
-    const [guestOpen, setGuestOpen] = useState(false);
-    const [isRegistering, setIsRegistering] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const queryClient = useQueryClient()
 
-    const {register, handleSubmit, formState: {errors}} = useForm<Bid>({
-        mode: 'onChange'
-    })
-
-    const {register: registerGuest, handleSubmit: handleSubmitGuest, formState: {errors: guestErrors}} = useForm<{
-        email: string;
-    }>({
+    const {register, handleSubmit, formState: {errors}, reset} = useForm<Bid & {email?: string}>({
         mode: 'onChange'
     })
 
     const handleClickOpen = () => {
-        if(count>0) {
-            if(session.status === "authenticated") {
-                setOpen(true)
-            } else {
-                setGuestOpen(true)
-            }
+        if(count > 0) {
+            setOpen(true)
         } else {
             toast('Добавьте товар в корзину')
         }
@@ -45,157 +34,159 @@ export default function FormBid() {
 
     const handleClose = () => {
         setOpen(false)
-        setGuestOpen(false)
+        setIsSubmitting(false)
+        reset()
     }
 
-    const handleGuestRegister: SubmitHandler<{email: string}> = async (guestData) => {
-        setIsRegistering(true)
+    const onSubmit: SubmitHandler<Bid & {email?: string}> = async (formData) => {
+        setIsSubmitting(true)
         try {
-            // Register user with auto-generated password
-            const response = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: guestData.email }),
-            })
+            let userEmail = sessionData?.user?.email
 
-            if (!response.ok) {
-                toast.error('Ошибка при регистрации')
-                setIsRegistering(false)
+            // 1. If not authenticated, register the user first
+            if (status !== "authenticated") {
+                if (!formData.email) {
+                    toast.error("Email обязателен")
+                    setIsSubmitting(false)
+                    return
+                }
+
+                const regResponse = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: formData.email }),
+                })
+
+                if (!regResponse.ok) {
+                    const errorData = await regResponse.json()
+                    // If user already exists, we might want to just proceed or ask for login
+                    // But for now, let's assume registration is needed or handle "already exists"
+                    if (errorData.error?.includes("already taken") || errorData.error?.includes("exists")) {
+                         userEmail = formData.email
+                    } else {
+                        toast.error(errorData.error || 'Ошибка при регистрации')
+                        setIsSubmitting(false)
+                        return
+                    }
+                } else {
+                    const regResult = await regResponse.json()
+                    userEmail = formData.email
+
+                    // Auto-authenticate
+                    await signIn('credentials', {
+                        redirect: false,
+                        email: formData.email,
+                        password: regResult.password,
+                    })
+
+                    toast.success('Регистрация успешна! Пароль отправлен на почту')
+                }
+            }
+
+            // 2. Check product availability
+            const NotEnough = await checkProductCount()
+            if (NotEnough.length) {
+                NotEnough.forEach((product) => {
+                    toast(`Количество товара: ${product.title} недостаточно. Всего ${product.count} товара`)
+                })
+                setIsSubmitting(false)
                 return
             }
 
-            const result = await response.json()
-
-            if (result.success) {
-                // Auto-authenticate the user
-                const authResponse = await signIn('credentials', {
-                    redirect: false,
-                    email: guestData.email,
-                    password: result.password, // We need to return the password from the API
-                })
-
-                if (authResponse?.error) {
-                    toast.error('Ошибка при автоматическом входе')
-                } else {
-                    toast.success('Регистрация успешна! Пароль отправлен на вашу почту')
-                    setGuestOpen(false)
-                    setOpen(true)
-                }
-            } else {
-                toast.error(result.error || 'Ошибка при регистрации')
+            // 3. Update product counts in Strapi
+            for (const product of products) {
+                const countInBid = getProductCount(product) || 0
+                await UpdateProduct(product, { count: product?.count ? product?.count - countInBid : 0 })
             }
-        } catch (error) {
-            toast.error('Ошибка при регистрации')
-        } finally {
-            setIsRegistering(false)
-        }
-    }
 
-    const onSubmit:SubmitHandler<Bid> = async (userData)=>{
-        const bid= {
-            status: "Новая",
-            products: [...products.map((el)=>el.id)],
-            counts: JSON.stringify([...productCount]),
-            sum: sum,
-            users_permissions_user: data?.user?.email
-        }
+            // 4. Create the bid
+            const bidData = {
+                status: "Новая",
+                products: products.map((el) => el.id),
+                counts: JSON.stringify(productCount),
+                sum: sum,
+                users_permissions_user: userEmail,
+                fio: formData.fio,
+                phone: formData.phone,
+                message: formData.message || ""
+            }
 
-        try {
-            products.forEach( async (product)=> {
-                const count = await getProductCount(product) || 0
-                const NotEnough = await checkProductCount()
-                if(NotEnough.length){
-                    NotEnough.forEach((product)=>{
-                        toast(`Количество товара: ${product.title} недостаточно. Всего ${product.count} товара`)
-                    })
-
-                    throw new Error("Количество товара недостаточно")
-                } else {
-                    await UpdateProduct(product, {count: product?.count ? product?.count-count : 0})
-                }
-
-            })
-            const createdBid : {data: Bid}  = await restClient.post(`/bids`, {data: {...bid, ...userData} }, true)
+            const createdBid: { data: Bid } = await restClient.post(`/bids`, { data: bidData }, true)
 
             if (createdBid?.data?.id) {
-                // Send order confirmation email
+                // 5. Send order confirmation email
                 await fetch('/api/orders/confirm', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        email: data?.user?.email,
+                        email: userEmail,
                         orderData: createdBid.data,
                         products: products,
                         productCount: productCount,
                     }),
                 })
 
-                toast("Заявка создана")
+                toast.success("Заявка успешно создана")
                 clear()
                 await queryClient.refetchQueries()
                 handleClose()
             }
-        } catch(e){
-            toast("Ошибка при создании заявки")
+        } catch (e) {
+            console.error(e)
+            toast.error("Ошибка при создании заявки")
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
-  return (
-    <>
-        <Button sx={{width: {xs: 1, sm: 'inherit'}}} onClick={handleClickOpen}>Создать заявку</Button>
+    return (
+        <>
+            <Button sx={{ width: { xs: 1, sm: 'inherit' } }} onClick={handleClickOpen}>Оформить заказ</Button>
 
-        {/* Guest Registration Dialog */}
-        <Dialog onClose={handleClose} open={guestOpen} maxWidth="sm" fullWidth>
-            <form onSubmit={handleSubmitGuest(handleGuestRegister)}>
-                <DialogTitle>Регистрация для заказа</DialogTitle>
-                <DialogContent>
-                    <DialogContentText sx={{mb: 2}}>
-                        Для оформления заказа необходимо зарегистрироваться. Введите ваш email - пароль будет автоматически сгенерирован и отправлен на почту.
-                    </DialogContentText>
-                    <Box sx={{display: 'flex', flexDirection: 'column', gap: 2, mt: 2}}>
-                        <TextField
-                            label="Email"
-                            type="email"
-                            fullWidth
-                            {...registerGuest('email', {required: 'Email обязателен'})}
-                            error={!!guestErrors.email}
-                            helperText={guestErrors.email?.message}
-                        />
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} disabled={isRegistering}>Отмена</Button>
-                    <Button type="submit" variant="contained" disabled={isRegistering}>
-                        {isRegistering ? 'Регистрация...' : 'Зарегистрироваться'}
-                    </Button>
-                </DialogActions>
-            </form>
-        </Dialog>
-
-        {/* Order Dialog */}
-        <Dialog onClose={handleClose} open={open}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <DialogTitle>Создание заявки</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        В ближайшее время с вами свяжутся для уточнения информации
-                    </DialogContentText>
-                    <Box sx={{mt: 2, display: 'flex', flexDirection: 'column', gap: 2}}>
-                        <FormInput placeholder="Фио" {...register('fio', {required: true})}/>
-                        <FormInput placeholder="Телефон" {...register('phone', {required: true})}/>
-                        <FormTextarea placeholder="Сообщение" {...register('message', {required: false})}/>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Отмена</Button>
-                    <Button type="submit" onClick={handleClose}>Отправить</Button>
-                </DialogActions>
-            </form>
-        </Dialog>
-    </>
-  )
+            <Dialog onClose={handleClose} open={open} maxWidth="sm" fullWidth>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <DialogTitle>Оформление заказа</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText sx={{ mb: 2 }}>
+                            {status === "authenticated" 
+                                ? "Проверьте ваши данные и подтвердите заказ" 
+                                : "Для оформления заказа укажите ваши контактные данные. Если вы не зарегистрированы, аккаунт будет создан автоматически."}
+                        </DialogContentText>
+                        <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            {status !== "authenticated" && (
+                                <TextField
+                                    label="Email"
+                                    type="email"
+                                    fullWidth
+                                    {...register('email', { required: 'Email обязателен' })}
+                                    error={!!errors.email}
+                                    helperText={errors.email?.message}
+                                />
+                            )}
+                            <FormInput 
+                                placeholder="ФИО" 
+                                {...register('fio', { required: 'ФИО обязательно' })}
+                                error={!!errors.fio}
+                            />
+                            <FormInput 
+                                placeholder="Телефон" 
+                                {...register('phone', { required: 'Телефон обязателен' })}
+                                error={!!errors.phone}
+                            />
+                            <FormTextarea 
+                                placeholder="Комментарий к заказу (необязательно)" 
+                                {...register('message')}
+                            />
+                        </Box>
+                    </DialogContent>
+                    <DialogActions sx={{ p: 3 }}>
+                        <Button onClick={handleClose} disabled={isSubmitting}>Отмена</Button>
+                        <Button type="submit" variant="contained" disabled={isSubmitting}>
+                            {isSubmitting ? 'Оформление...' : 'Подтвердить заказ'}
+                        </Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
+        </>
+    )
 }

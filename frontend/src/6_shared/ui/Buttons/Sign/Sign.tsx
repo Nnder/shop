@@ -11,16 +11,15 @@ export default function SignButton() {
     if (!isAuthenticated) {
         return (
             <Link href='/signin' passHref>
-                <Button 
-                    variant="outlined" 
+                <Button
+                    variant="text"
                     startIcon={<LogIn size={18} />}
                     sx={{
                         color: 'var(--secondary)',
-                        borderColor: 'rgba(254, 239, 221, 0.3)',
-                        px: 3,
+                        px: 2,
                         '&:hover': {
-                            borderColor: 'var(--secondary)',
-                            bgcolor: 'rgba(254, 239, 221, 0.1)'
+                            bgcolor: 'rgba(255, 64, 0, 0.1)',
+                            color: 'var(--accent)'
                         }
                     }}
                 >

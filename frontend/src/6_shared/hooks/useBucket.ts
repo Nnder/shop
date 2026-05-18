@@ -14,12 +14,7 @@ export function useBucket(product: Product){
     }, [count, existInBid, product])
 
     const handleClick = (): void => {
-        if(session.status === "unauthenticated"){
-            toast("Пользователь не авторизован")
-        } else {
-            inBucket ? removeProduct(product) : addProduct(product)
-            // toast("Товар добавлен")
-        }
+        inBucket ? removeProduct(product) : addProduct(product)
     }
 
     return {inBucket, handleClick}

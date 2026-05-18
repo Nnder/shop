@@ -108,24 +108,6 @@ export default function Home() {
         </Grid>
       </Container>
 
-      {/* Map Section */}
-      <Container sx={{ mt: 10 }}>
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Typography variant="h3" sx={{ fontWeight: 800, mb: 2 }}>Наше местоположение</Typography>
-          <Box sx={{ width: '60px', height: '4px', bgcolor: 'var(--accent)', mx: 'auto' }} />
-        </Box>
-        <Paper elevation={0} sx={{
-          borderRadius: 'var(--border-radius-lg)',
-          overflow: 'hidden',
-          border: '1px solid var(--border-color)',
-          height: '450px',
-          width: '100%',
-          position: 'relative'
-        }}>
-          <YandexMap />
-        </Paper>
-      </Container>
-
       {/* CTA Section */}
       <Box sx={{ 
         mt: 12, 
@@ -151,6 +133,24 @@ export default function Home() {
           </Link>
         </Container>
       </Box>
+
+      {/* Map Section */}
+      <Container sx={{ mt: 10 }}>
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, mb: 2 }}>Наше местоположение</Typography>
+          <Box sx={{ width: '60px', height: '4px', bgcolor: 'var(--accent)', mx: 'auto' }} />
+        </Box>
+        <Paper elevation={0} sx={{
+          borderRadius: 'var(--border-radius-lg)',
+          overflow: 'hidden',
+          border: '1px solid var(--border-color)',
+          height: '450px',
+          width: '100%',
+          position: 'relative'
+        }}>
+          <YandexMap />
+        </Paper>
+      </Container>
     </Box>
   );
 }
