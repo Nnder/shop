@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 export default function YandexMap({ center = [57.942389, 59.912006], zoom = 10 }) {
   const apiKey = process.env.YANDEX_APIKEY_MAP
   const [showOverlay, setShowOverlay] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
 
   const handleMapClick = () => {
     setShowOverlay(false)
@@ -35,6 +36,8 @@ export default function YandexMap({ center = [57.942389, 59.912006], zoom = 10 }
       {showOverlay && (
         <Box
           onClick={handleMapClick}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           sx={{
             position: 'absolute',
             top: 0,
@@ -50,19 +53,22 @@ export default function YandexMap({ center = [57.942389, 59.912006], zoom = 10 }
             transition: 'opacity 0.3s ease',
           }}
         >
-          <Box
-            sx={{
-              bgcolor: 'rgba(32, 30, 31, 0.8)',
-              color: 'var(--secondary)',
-              px: 3,
-              py: 1.5,
-              borderRadius: 2,
-              fontSize: '0.9rem',
-              pointerEvents: 'none',
-            }}
-          >
-            Нажмите для взаимодействия с картой
-          </Box>
+          {isHovered && (
+            <Box
+              sx={{
+                bgcolor: 'rgba(32, 30, 31, 0.8)',
+                color: 'var(--secondary)',
+                px: 3,
+                py: 1.5,
+                borderRadius: 2,
+                fontSize: '0.9rem',
+                pointerEvents: 'none',
+                transition: 'opacity 0.3s ease',
+              }}
+            >
+              Нажмите для взаимодействия с картой
+            </Box>
+          )}
         </Box>
       )}
     </Box>
