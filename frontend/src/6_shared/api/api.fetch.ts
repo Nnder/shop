@@ -37,7 +37,7 @@ class FetchClient {
         isAuth: boolean = false,
         headers?: Record<string, string>
     ):Promise<T>{
-        return this.fetch<T>(path, 'PUT', isAuth, undefined, headers)
+        return this.fetch<T>(path, 'DELETE', isAuth, undefined, headers)
     }
 
     async patch<T>(

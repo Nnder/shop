@@ -13,7 +13,7 @@ function generatePassword(length = 10) {
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const { email, password: providedPassword } = await request.json();
 
     if (!email) {
       return NextResponse.json(
@@ -22,10 +22,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate random password
-    const password = generatePassword(12);
+    // Use provided password or generate random one
+    const password = providedPassword || generatePassword(12);
 
-    // Register user in Strapi
+    // Register user in Strapi using the users-permissions plugin
     const strapiResponse = await fetch(`${process.env.BACK_URL}/api/auth/local/register`, {
       method: 'POST',
       headers: {
@@ -38,35 +38,47 @@ export async function POST(request: Request) {
       }),
     });
 
+    console.log('Strapi registration response status:', strapiResponse.status);
+
     if (!strapiResponse.ok) {
       const errorData = await strapiResponse.json();
+      console.error('Strapi registration error:', errorData);
       return NextResponse.json(
-        { error: errorData.error?.message || 'Registration failed' },
+        { error: errorData.error?.message || errorData.message || 'Registration failed' },
         { status: strapiResponse.status }
       );
     }
 
     const userData = await strapiResponse.json();
 
-    // Send password to user's email
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_ENCRYPTION === 'ssl',
-      auth: {
-        user: process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
+    // Send password and confirmation to user's email
+    try {
+      console.log('Attempting to send registration email to:', email);
+      console.log('SMTP Config:', {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: process.env.SMTP_PORT === '465',
+        user: process.env.SMTP_USERNAME
+      });
 
-    const mailOptions = {
-      from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
-      to: email,
-      subject: 'Ваш пароль для входа',
-      text: `
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT),
+        secure: process.env.SMTP_PORT === '465', // Port 465 is usually for SSL/TLS
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      });
+
+      const mailOptions = {
+        from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM_ADDRESS}>`,
+        to: email,
+        subject: 'Регистрация успешно завершена',
+        text: `
 Здравствуйте!
 
-Ваш аккаунт успешно создан.
+Ваш аккаунт успешно создан и подтвержден.
 
 Ваш email: ${email}
 Ваш пароль: ${password}
@@ -76,19 +88,28 @@ export async function POST(request: Request) {
 С уважением,
 Команда ${process.env.MAIL_FROM_NAME}
       `,
-      html: `
-        <h2>Ваш аккаунт успешно создан</h2>
-        <p>Здравствуйте!</p>
-        <p>Ваш аккаунт успешно создан.</p>
-        <p><strong>Ваш email:</strong> ${email}</p>
-        <p><strong>Ваш пароль:</strong> ${password}</p>
-        <p>Вы можете войти на сайте используя эти данные.</p>
-        <hr />
-        <p>С уважением,<br />Команда ${process.env.MAIL_FROM_NAME}</p>
+        html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+          <h2 style="color: #FF4000;">Регистрация успешно завершена</h2>
+          <p>Здравствуйте!</p>
+          <p>Ваш аккаунт успешно создан и подтвержден.</p>
+          <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <p style="margin: 5px 0;"><strong>Ваш email:</strong> ${email}</p>
+            <p style="margin: 5px 0;"><strong>Ваш пароль:</strong> ${password}</p>
+          </div>
+          <p>Вы можете войти на сайте используя эти данные.</p>
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
+          <p style="color: #666; font-size: 14px;">С уважением,<br />Команда ${process.env.MAIL_FROM_NAME}</p>
+        </div>
       `,
-    };
+      };
 
-    await transporter.sendMail(mailOptions);
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Registration email sent successfully:', info.messageId);
+    } catch (emailError) {
+      console.error('Detailed Email sending error:', emailError);
+      // Continue even if email fails - user is registered
+    }
 
     return NextResponse.json({
       success: true,

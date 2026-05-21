@@ -83,23 +83,32 @@ export const useBidStore = create<StoreBid>((set,get) => ({
         const {productCount, getProductIndex, products} = get()
         const newProducts: Product[] = []
         const NotEnough: ProductCount[] = []
-        productCount.map( async (product)=>{
-            const currentProduct = await restClient.get<{data: Product}>(`/products/${product.id}`, true)
-            if(product.count && currentProduct.data.count && product.count > currentProduct.data.count){
-                const newProduct: ProductCount = {id: product.id, count: 1}
-                const index: number = getProductIndex(product as Product) as number
-                if(index >= 0){
-                    newProducts[index] = {...currentProduct.data}
-                }
+        
+        for (const product of productCount) {
+            try {
+                const response = await restClient.get<any>(`/products/${product.id}`, false)
+                // Handle both transformed and untransformed responses
+                const currentProduct = response.data || response;
+                
+                if (product.count && currentProduct.count !== undefined && product.count > currentProduct.count) {
+                    const newProduct: ProductCount = {id: product.id, count: 1}
+                    const index: number = getProductIndex(product as any as Product) as number
+                    if(index >= 0){
+                        newProducts[index] = {...currentProduct}
+                    }
 
-                NotEnough.push({...newProduct, title: currentProduct.data.title})
-                return {...newProduct}
+                    NotEnough.push({...newProduct, title: currentProduct.title})
+                }
+            } catch (e) {
+                console.error(`Error checking count for product ${product.id}:`, e)
             }
-        })
+        }
 
         set(produce((state)=>{
             state.productCount = [...productCount]
-            state.product = [...newProducts]
+            if (newProducts.length > 0) {
+                state.products = state.products.map((p, i) => newProducts[i] || p)
+            }
         }))
 
         return NotEnough
@@ -122,17 +131,20 @@ export const useBidStore = create<StoreBid>((set,get) => ({
 
 
 
-export function GetBidsByEmail(email: string){
+export function GetBidsForCurrentUser(isAuthenticated: boolean){
     return useQuery({
-        queryKey: ['previousBids', email],
-        queryFn: context => restClient.get<{data: Bid[]}>(
-            `/bids?sort=createdAt:desc&populate[products]=*&filters[users_permissions_user][$eq]=${email}`, false, {
-                'Content-Type': 'application/json'
-            }),
-        enabled: true,
+        queryKey: ['previousBids'],
+        queryFn: async () => {
+            const response = await fetch(`/api/bids/user`)
+            if (!response.ok) {
+                throw new Error('Failed to fetch bids')
+            }
+            return response.json()
+        },
+        enabled: isAuthenticated,
         staleTime: 50000,
         refetchInterval: 60000,
         gcTime: 50000,
     })
-    
+
 }

@@ -1,7 +1,7 @@
 'use client'
 import BidList from "@/src/3_widget/BidList/BidList";
 import BucketList from "@/src/3_widget/BucketList/BucketList";
-import { GetBidsByEmail, useBidStore } from "@/src/5_entities/bid/bid";
+import { GetBidsForCurrentUser, useBidStore } from "@/src/5_entities/bid/bid";
 import Loader from "@/src/6_shared/ui/Loader/Loader";
 import { Box, Container, Paper, Typography, Divider } from "@mui/material";
 import { useSession } from "next-auth/react";
@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 export default function Bucket() {
     const { products } = useBidStore()
     const session = useSession()
-    const { isLoading, data } = GetBidsByEmail(session.data?.user?.email || "")
+    const { isLoading, data } = GetBidsForCurrentUser(session.status === "authenticated")
 
     return (
         <Box sx={{ bgcolor: 'var(--bg-cream)', minHeight: 'calc(100vh - var(--navbar-height))', py: 6 }}>

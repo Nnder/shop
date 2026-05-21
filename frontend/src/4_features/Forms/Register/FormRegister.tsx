@@ -21,17 +21,41 @@ export default function FormRegister() {
             return;
         }
 
-        const response = await signIn('credentials',
-            {
-                redirect: false,
-                username: data.email,
-                new: "1",
-                ...data,
-            }
-        )
+        try {
+            // 1. Register via our API to send email
+            const regResponse = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: data.email,
+                    password: data.password
+                }),
+            })
 
-        if (response?.error) {
-            toast.error('Ошибка при регистрации')
+            if (!regResponse.ok) {
+                const errorData = await regResponse.json()
+                toast.error(errorData.error || 'Ошибка при регистрации')
+                return
+            }
+
+            // 2. Sign in
+            const response = await signIn('credentials',
+                {
+                    redirect: true,
+                    callbackUrl: '/',
+                    email: data.email,
+                    password: data.password,
+                }
+            )
+
+            if (response?.error) {
+                toast.error('Ошибка при входе после регистрации')
+            } else {
+                toast.success('Регистрация успешна! Данные отправлены на почту')
+            }
+        } catch (error) {
+            console.error('Registration error:', error)
+            toast.error('Произошла ошибка при регистрации')
         }
     }
 

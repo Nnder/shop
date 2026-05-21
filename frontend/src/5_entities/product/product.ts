@@ -31,5 +31,15 @@ export function GetProduct(id: number){
 }
 
 export async function UpdateProduct(product: Product, newProduct: Partial<Product>){
-    return await restClient.put<Product>(`/products/${product.id}`, {data:{...newProduct}}, true)
+    const response = await fetch(`/api/products/${product.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newProduct),
+    })
+    
+    if (!response.ok) {
+        throw new Error('Failed to update product')
+    }
+    
+    return await response.json()
 }
