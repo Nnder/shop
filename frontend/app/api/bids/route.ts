@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/src/6_shared/auth/config';
+import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
   try {
@@ -8,8 +9,9 @@ export async function POST(request: Request) {
     const bidData = await request.json();
 
     // Securely set the user email from session if authenticated
-    if (session?.user?.email) {
-      bidData.users_permissions_user = session.user.email;
+    const userEmail = session?.user?.email || bidData.users_permissions_user;
+    if (userEmail) {
+      bidData.users_permissions_user = userEmail;
     }
 
     console.log('Bid data being sent to Strapi:', JSON.stringify(bidData, null, 2));
@@ -51,6 +53,66 @@ export async function POST(request: Request) {
 
     // Handle both transformed and untransformed responses
     const finalData = result.data || result;
+
+    // Send email notification to managers
+    try {
+      const managerEmails = process.env.MANAGER_EMAILS?.split(',').map(e => e.trim()).filter(Boolean);
+      if (managerEmails && managerEmails.length > 0) {
+        console.log('Attempting to send manager notification email to:', managerEmails);
+
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: Number(process.env.SMTP_PORT),
+          secure: process.env.SMTP_PORT === '465',
+          auth: {
+            user: process.env.SMTP_USERNAME,
+            pass: process.env.SMTP_PASSWORD,
+          },
+        });
+
+        const productListHtml = bidData.products.map((product: any) => {
+            const count = JSON.parse(bidData.counts).find((item: any) => product.id === item.id)?.count || 0;
+            const itemTotal = (product.price || 0) * count;
+            return `
+                <li>${product.title} (x${count}) - ${itemTotal} ₽</li>
+            `;
+        }).join('');
+
+        const mailOptions = {
+          from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM_ADDRESS}>`,
+          to: managerEmails.join(','),
+          subject: `НОВАЯ ЗАЯВКА #${finalData.id} от ${bidData.fio}`,
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+              <h2 style="color: #FF4000;">Новая Заявка на сайте</h2>
+              <p>Поступила новая заявка от пользователя:</p>
+              <ul>
+                <li><strong>ID Заявки:</strong> #${finalData.id}</li>
+                <li><strong>ФИО:</strong> ${bidData.fio}</li>
+                <li><strong>Телефон:</strong> ${bidData.phone}</li>
+                <li><strong>Email Пользователя:</strong> ${userEmail || 'Не указан'}</li>
+                <li><strong>Сумма:</strong> ${bidData.sum} ₽</li>
+              </ul>
+              ${bidData.message ? `<p><strong>Комментарий:</strong> ${bidData.message}</p>` : ''}
+
+              <h3>Состав заказа:</h3>
+              <ul>
+                ${productListHtml}
+              </ul>
+              <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
+              <p style="color: #666; font-size: 14px;">С уважением,<br />Система уведомлений магазина</p>
+            </div>
+          `,
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Manager notification email sent successfully:', info.messageId);
+      } else {
+        console.warn('No MANAGER_EMAILS configured. Skipping manager notification.');
+      }
+    } catch (emailError) {
+      console.error('Error sending manager notification email:', emailError);
+    }
 
     return NextResponse.json({
       success: true,

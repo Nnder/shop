@@ -5,6 +5,7 @@ import Navbar from "@/src/3_widget/Navbar/Navbar";
 import Footer from "@/src/3_widget/Footer/Footer";
 import "@/src/1_app/globals.css";
 import { Box } from "@mui/material";
+import { CookieConsentProvider, CookieConsentBanner } from '@/src/6_shared/ui/CookieConsent/CookieConsent';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,13 +26,16 @@ export default function RootLayout({
         <link rel="icon" href="/faviconStroke.svg" sizes="any"/>
       </head>
       <body className={inter.className} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <MainProvider>
-          <Navbar/>
-          <Box component="main" sx={{ flexGrow: 1 }}>
-            {children}
-          </Box>
-          <Footer/>
-        </MainProvider>
+        <CookieConsentProvider>
+          <MainProvider>
+            <Navbar/>
+            <Box component="main" sx={{ flexGrow: 1 }}>
+              {children}
+            </Box>
+            <Footer/>
+          </MainProvider>
+          <CookieConsentBanner />
+        </CookieConsentProvider>
       </body>
     </html>
   );

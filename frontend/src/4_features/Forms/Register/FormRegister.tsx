@@ -1,7 +1,7 @@
 "use client"
 import { user } from "@/src/5_entities/user/user.types";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
-import { Box, Button, Typography, Paper, Divider } from "@mui/material";
+import { Box, Button, Typography, Paper, Divider, Checkbox, FormControlLabel } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -94,6 +94,25 @@ export default function FormRegister() {
                         type='password' 
                         placeholder="Повторите пароль" 
                     />
+
+                    <Box sx={{ mt: 1 }}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox 
+                                    required 
+                                    sx={{ 
+                                        color: 'var(--primary)',
+                                        '&.Mui-checked': { color: 'var(--primary)' }
+                                    }} 
+                                />
+                            }
+                            label={
+                                <Typography variant="caption" sx={{ color: 'var(--text-muted)' }}>
+                                    Я согласен с <Link href="/privacy-policy" target="_blank" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Политикой конфиденциальности</Link> и <Link href="/terms" target="_blank" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Условиями пользования</Link>
+                                </Typography>
+                            }
+                        />
+                    </Box>
 
                     <Button 
                         type='submit' 

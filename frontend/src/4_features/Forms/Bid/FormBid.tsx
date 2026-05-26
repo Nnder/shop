@@ -6,12 +6,13 @@ import { restClient } from "@/src/6_shared/api/api.fetch";
 import Button from "@/src/6_shared/ui/Buttons/Button";
 import { FormInput } from "@/src/6_shared/ui/Inputs/FormInput/FormInput";
 import { FormTextarea } from "@/src/6_shared/ui/Textarea/Textarea";
-import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession, signIn } from "next-auth/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function FormBid() {
     const {data: sessionData, status} = useSession()
@@ -63,7 +64,13 @@ export default function FormBid() {
                 if (!regResponse.ok) {
                     const errorData = await regResponse.json()
                     console.error('Registration error:', errorData)
-                    toast.error(errorData.error || 'Ошибка при регистрации')
+
+                    const errorMessage = errorData.error?.message || errorData.message || 'Ошибка при регистрации';
+                    if (errorMessage.includes("Email or Username are already taken")) {
+                        toast.error("Аккаунт с таким email уже существует. Пожалуйста, войдите в свой аккаунт или восстановите пароль.");
+                    } else {
+                        toast.error(errorMessage);
+                    }
                     setIsSubmitting(false)
                     return
                 }
@@ -193,6 +200,25 @@ export default function FormBid() {
                                 placeholder="Комментарий к заказу (необязательно)" 
                                 {...register('message')}
                             />
+
+                            <Box sx={{ mt: 1 }}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox 
+                                            required 
+                                            sx={{ 
+                                                color: 'var(--accent)',
+                                                '&.Mui-checked': { color: 'var(--accent)' }
+                                            }} 
+                                        />
+                                    }
+                                    label={
+                                        <Typography variant="caption" sx={{ color: 'var(--text-muted)' }}>
+                                            Я согласен с <Link href="/privacy-policy" target="_blank" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Политикой конфиденциальности</Link> и условиями <Link href="/offer" target="_blank" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>Публичной оферты</Link>
+                                        </Typography>
+                                    }
+                                />
+                            </Box>
                         </Box>
                     </DialogContent>
                     <DialogActions sx={{ p: 3 }}>
