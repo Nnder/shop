@@ -27,7 +27,7 @@ export default function BucketList({products, ...props}: PropsWithChildren<{prod
                     bgcolor: 'var(--bg-cream)'
                 }}>
                     <Box sx={{color: 'var(--text-muted)', mb: { xs: 1, sm: 2 }}}>
-                        <ShoppingBag size={ { xs: 48, sm: 64 } } />
+                        <ShoppingBag size={56} />
                     </Box>
                     <Typography variant="h6" sx={{color: 'var(--text-muted)', mb: { xs: 0.5, sm: 1 }, fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>
                         Корзина пуста

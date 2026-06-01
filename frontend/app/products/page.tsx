@@ -1,10 +1,27 @@
 import CardList from "@/src/3_widget/CardList/CardList";
 import { Box, Container, Typography } from "@mui/material";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import getQueryClient from "@/src/6_shared/api/getQueryClient";
+import { restClient } from "@/src/6_shared/api/api.fetch";
+import { Product } from "@/src/5_entities/product/product.types";
 
 export const dynamic = 'force-dynamic';
 
-export default function Products() {
+export default async function Products() {
+  const queryClient = getQueryClient();
+
+  // Prefetch the default (empty-search) product list so it is rendered server-side.
+  // Key must match GetProducts(debouncedFind="") in CardList for hydration to hit.
+  await queryClient.prefetchQuery({
+    queryKey: ['products', ''],
+    queryFn: () => restClient.get<{ data: Product[] }>(
+      `/products?populate=*&filters[title][$contains]=`, false, {
+        'Content-Type': 'application/json'
+      }),
+  });
+
   return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
     <Box sx={{ bgcolor: 'var(--bg-cream)', minHeight: 'calc(100vh - var(--navbar-height))', py: 6 }}>
       <Container>
         <Box sx={{ mb: 6, textAlign: 'center' }}>
@@ -20,5 +37,6 @@ export default function Products() {
         </Box>
       </Container>
     </Box>
+    </HydrationBoundary>
   );
 }

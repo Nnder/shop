@@ -107,7 +107,7 @@ export const useBidStore = create<StoreBid>((set,get) => ({
         set(produce((state)=>{
             state.productCount = [...productCount]
             if (newProducts.length > 0) {
-                state.products = state.products.map((p, i) => newProducts[i] || p)
+                state.products = state.products.map((p: any, i: number) => newProducts[i] || p)
             }
         }))
 

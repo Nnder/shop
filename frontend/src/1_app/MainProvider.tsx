@@ -1,6 +1,6 @@
 "use client"
 import { ThemeProvider, createTheme } from "@mui/material";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import Session from "./Session";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
@@ -79,9 +79,11 @@ const theme = createTheme({
     }
   })
 
-const queryClient = new QueryClient()
-
 export default function MainProvider({children}: PropsWithChildren) {
+  // One client per browser session (lazy useState), not a module singleton —
+  // a shared singleton leaks state across requests during SSR.
+  const [queryClient] = useState(() => new QueryClient())
+
   return (
     <>
     <Toaster/>
