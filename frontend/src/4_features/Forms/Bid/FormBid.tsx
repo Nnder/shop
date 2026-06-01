@@ -9,7 +9,7 @@ import { FormTextarea } from "@/src/6_shared/ui/Textarea/Textarea";
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession, signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -21,9 +21,25 @@ export default function FormBid() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const queryClient = useQueryClient()
 
-    const {register, handleSubmit, formState: {errors}, reset} = useForm<Bid & {email?: string}>({
-        mode: 'onChange'
+    const {register, handleSubmit, formState: {errors}, reset, watch, setValue} = useForm<Bid & {email?: string}>({
+        mode: 'onChange',
+        defaultValues: {
+            fio: typeof window !== 'undefined' ? localStorage.getItem('bid_fio') || "" : "",
+            phone: typeof window !== 'undefined' ? localStorage.getItem('bid_phone') || "" : "",
+            email: typeof window !== 'undefined' ? localStorage.getItem('bid_email') || "" : "",
+        }
     })
+
+    const watchedFields = watch(['fio', 'phone', 'email'])
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const [fio, phone, email] = watchedFields
+            if (fio) localStorage.setItem('bid_fio', fio)
+            if (phone) localStorage.setItem('bid_phone', phone)
+            if (email) localStorage.setItem('bid_email', email)
+        }
+    }, [watchedFields])
 
     const handleClickOpen = () => {
         if(count > 0) {
