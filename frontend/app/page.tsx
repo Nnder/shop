@@ -11,45 +11,66 @@ export default function Home() {
       {/* Hero Section */}
       <Box sx={{
         height: '80vh',
-        background: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url("/img/plan.jpeg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        color: 'var(--secondary)',
-        px: 2
+        position: 'relative',
+        overflow: 'hidden',
+        bgcolor: '#000',
+        color: 'var(--secondary)'
       }}>
-        <Typography variant="h1" sx={{ 
-          fontSize: { xs: '2.5rem', md: '4.5rem' }, 
-          fontWeight: 800, 
-          mb: 2,
-          textShadow: '0 4px 12px rgba(0,0,0,0.5)'
+        <Box
+          component="video"
+          src="/494238894720.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+        <Box sx={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7))',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+          px: 2
         }}>
-          Надежный поставщик мяса и колбас
-        </Typography>
-        <Typography variant="h5" sx={{ 
-          fontSize: { xs: '1.1rem', md: '1.5rem' }, 
-          maxWidth: '800px', 
-          mb: 4, 
-          opacity: 0.9,
-          fontWeight: 400
-        }}>
-          Производство и поставка свежего мяса и колбасных изделий в Нижнем Тагиле и по всей Свердловской области. Готовы к долгосрочному сотрудничеству с розничными сетями и общепитом.
-        </Typography>
-        <Link href="/products" passHref>
-          <Button variant="contained" size="large" sx={{ 
-            bgcolor: 'var(--accent)', 
-            px: 6, 
-            py: 2, 
-            fontSize: '1.1rem',
-            '&:hover': { bgcolor: 'var(--accent-hover)' }
+          <Typography variant="h1" sx={{
+            fontSize: { xs: '2.5rem', md: '4.5rem' },
+            fontWeight: 800,
+            mb: 2,
+            textShadow: '0 4px 12px rgba(0,0,0,0.5)'
           }}>
-            Перейти в каталог
-          </Button>
-        </Link>
+            Надежный поставщик мяса и колбас
+          </Typography>
+          <Typography variant="h5" sx={{
+            fontSize: { xs: '1.1rem', md: '1.5rem' },
+            maxWidth: '800px',
+            mb: 4,
+            opacity: 0.9,
+            fontWeight: 400
+          }}>
+            Производство и поставка свежего мяса и колбасных изделий в Нижнем Тагиле и по всей Свердловской области. Готовы к долгосрочному сотрудничеству с розничными сетями и общепитом.
+          </Typography>
+          <Link href="/products" passHref>
+            <Button variant="contained" size="large" sx={{
+              bgcolor: 'var(--accent)',
+              px: 6,
+              py: 2,
+              fontSize: '1.1rem',
+              '&:hover': { bgcolor: 'var(--accent-hover)' }
+            }}>
+              Перейти в каталог
+            </Button>
+          </Link>
+        </Box>
       </Box>
 
       {/* How It Works Section */}
